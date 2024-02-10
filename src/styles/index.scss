@@ -1,0 +1,207 @@
+///////////////////////// Template ////////////////////////
+
+
+:root {
+    // This is syster variables, to use them for example : 
+    // color: var(--text-color);
+    
+    --background-color: #fff;
+    --background-light: #fff;
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --primary-color: rgba(141, 11, 54, 0.713);
+    --text-color: #0A0A0A;
+    --text-light: #575757;
+    --font-size: 16px;
+    --animation-speed: 1;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: var(--font-size);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial;
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    object-fit: cover;
+}
+
+// Imports
+@import "partials/navbar_.scss";
+@import "partials/home-anim.scss";
+@import "./Plan.scss";
+@import "./Recipes.scss";
+@import "./Share.scss";
+@import "./Shopping.scss";
+@import "./MyYummy.scss";
+
+.container {
+    padding-inline: 20vw;
+}
+
+.section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2em;
+
+    .title {
+        color: var(--text-color);
+        font-size: 4em;
+        margin-bottom: .2em;
+    }
+
+    .info {
+        color: var(--text-light);
+        font-size: 1.5em;
+        margin-bottom: .5em;
+        letter-spacing: 1px;
+        line-height: 1.2;
+    }
+
+    .col {
+        width: 50%;
+    }
+}
+
+.footer {
+    background-color: #0A0A0A;
+    color: #b0b0b0;
+    padding-block: 1em;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    p {
+        margin-right: 5vw;
+        margin-left: 8vw;
+        margin-bottom: 0.5em;
+    }
+
+    .title {
+        font-size: 1.2em;
+        color: #fff;
+        margin-bottom: .3em;
+    }
+}
+
+
+///////////////////////// End Of Template ////////////////////////
+
+
+.btn {
+    border: none;
+    outline: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: .5em 1em;
+    margin: 1em 0 1em 0;
+    text-transform: uppercase;
+    font-size: 1em;
+    font-weight: bolder;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px var(--shadow-color);
+    transition: background-color 0.5s ease;
+
+    &:hover {
+        background-color: #0056b3;
+        box-shadow: 0 1px 3px var(--shadow-color)
+    }
+}
+
+.custom-img {
+    height: 0;
+    width: 100%;
+    position: relative;
+
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.section.home { // The first column settings
+    color: var(--text-light);
+    
+    .welcome {
+        padding-right: 1em;
+        opacity: 0;
+        animation: 3s fadeIn forwards;
+    }
+
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1vw;
+        .custom-img {
+            border-radius: 16px;
+            overflow: hidden;
+            opacity: 0;
+            animation: 1.3s fadeIn forwards; // setting the animation of the images
+            &:nth-child(1) {
+                animation-delay: .1s;
+            }
+            &:nth-child(2) {
+                animation-delay: .2s;
+            }
+            &:nth-child(3) {
+                animation-delay: .4s;
+            }
+            &:nth-child(4) {
+                animation-delay: .2s;
+            }
+            &:nth-child(5) {
+                animation-delay: .4s;
+            }
+            &:nth-child(6) {
+                animation-delay: .6s;
+            }
+            &:nth-child(7) {
+                animation-delay: .4s;
+            }
+            &:nth-child(8) {
+                animation-delay: .6s;
+            }
+            &:nth-child(9) {
+                animation-delay: .8s;
+            }
+        }
+    }
+
+    .join {
+        width: 680px;
+        padding-left: 10%;
+        opacity: 0;
+        animation: 5s fadeIn forwards;
+    }
+
+    .join-gallery {
+        display: flex;
+        border-radius: 32px;
+        overflow: hidden;
+        opacity: 0;
+        animation: 3s fadeIn forwards;
+    }
+
+    .join-reasons {
+        font-size: 1.25em;
+        border-left: .3em solid var(--primary-color);
+        margin-bottom: .3em;
+        padding-left: .3em;
+    }
+}
+
+.main {
+    padding-block: 3vw;
+}
+
