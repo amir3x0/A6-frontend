@@ -1,0 +1,204 @@
+.plansection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center items horizontally */
+}
+
+/* Styles for the image container */
+.image-container {
+    position: relative;
+    max-height: 400px;
+    /* Set a maximum height for the image */
+    overflow: hidden;
+    /* Hide any overflow content */
+}
+
+/* Styles for the image */
+.cus_img {
+    width: 100%;
+    height: auto;
+    /* Allow the image to maintain its aspect ratio */
+}
+
+/* Styles for the overlay */
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(52, 63, 53, 0.75);
+    padding: 20px;
+    width: 100%;
+    /* Ensure overlay spans the entire width */
+}
+
+/* Styles for the overlay text */
+.overlay h1 {
+    color: #eee;
+    font-size: 24px;
+    /* Adjust font size as needed */
+    margin: 0;
+}
+
+/* Styles for the content */
+.content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    /* Ensure content spans the entire width */
+    padding: 20px;
+    box-sizing: border-box;
+    /* Include padding in width calculations */
+}
+
+/* Styles for the columns */
+.column {
+    flex: 0 0 70%;
+    /* Set the first column to span 70% of the container */
+    padding: 0 10px;
+}
+
+.column:nth-child(2) {
+    flex: 0 0 30%;
+    /* Set the second column to span 30% of the container */
+}
+
+
+.row-title {
+    font-size: 24px;
+    /* Set the font size for the row titles */
+    font-weight: bold;
+    /* Make the titles bold */
+    color: #1d471d;
+    /* A nice green color, feel free to change */
+    text-transform: uppercase;
+    /* Convert text to uppercase for a stylish appearance */
+    margin-bottom: 5px;
+    /* Add some space between titles and content */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    /* Add a subtle shadow for depth */
+    letter-spacing: 1px;
+    /* Increase letter spacing for readability */
+    font-family: 'Arial', sans-serif;
+    /* Use a clean sans-serif font */
+}
+
+/* Styles for individual dishes */
+.dish-container {
+    max-height: 200px;
+    /* Set maximum height for the dish container */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    border: 1px solid #ccc;
+    /* Add a border for visibility */
+    padding: 5px;
+    /* Add some padding for better appearance */
+    margin-bottom: 10px;
+    /* Add space between dish containers */
+    display: flex;
+    /* Use flexbox layout */
+    flex-wrap: wrap;
+    /* Allow items to wrap to the next row */
+    gap: 10px;
+    /* Add some space between items */
+}
+
+/* Adjustments for scrollbar appearance */
+.dish-container::-webkit-scrollbar {
+    width: 8px;
+    /* Set width for scrollbar */
+}
+
+.dish-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    /* Set color for scrollbar thumb */
+    border-radius: 4px;
+    /* Add border-radius for rounded corners */
+}
+
+/* Styles for the recipe */
+.recipe {
+    margin-bottom: 20px;
+}
+
+/* Styles for the recipe image */
+.recipe-image {
+    width: 150px;
+    /* Set a fixed width for the image */
+    height: 150px;
+    /* Set a fixed height for the image */
+    object-fit: cover;
+    /* Ensure the image covers the container */
+    margin-bottom: 10px;
+    /* Add space below the image */
+}
+
+/* Styles for the "Add to the meal" button */
+.add-to-meal {
+    background-color: #4CAF50;
+    /* Green background color */
+    color: white;
+    /* White text color */
+    border: none;
+    /* Remove border */
+    padding: 10px 20px;
+    /* Add padding */
+    cursor: pointer;
+    /* Add cursor on hover */
+    border-radius: 5px;
+    /* Add border-radius for rounded corners */
+    transition: background-color 0.3s ease;
+    /* Add transition for smooth effect */
+}
+
+.add-to-meal:hover {
+    background-color: #45a049;
+    /* Darker green on hover */
+}
+
+.table-section {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.table-section table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-section th,
+.table-section td {
+    border-bottom: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.table-section th {
+    background-color: #f2f2f2;
+}
+
+/* Styles for the "Create Shopping List" button */
+.create-list-button {
+    background-color: #4CAF50;
+    /* Green background color */
+    color: white;
+    /* White text color */
+    border: none;
+    /* Remove border */
+    padding: 10px 20px;
+    /* Add padding */
+    cursor: pointer;
+    /* Add cursor on hover */
+    border-radius: 5px;
+    /* Add border-radius for rounded corners */
+    transition: background-color 0.3s ease;
+    /* Add transition for smooth effect */
+    margin-top: 20px;
+    /* Add margin to separate from table */
+}
+
+.create-list-button:hover {
+    background-color: #45a049;
+    /* Darker green on hover */
+}

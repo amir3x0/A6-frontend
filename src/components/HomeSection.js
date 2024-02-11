@@ -1,7 +1,7 @@
 import CustomImage from "./CustomImage";
 
 export default function HomeSection() {
-    
+    document.title = "Home";
     const images = ["/images/home_img/pasta.png",
                     "/images/home_img/hamburger.png",
                     "/images/home_img/Healthy.jpg",
@@ -20,7 +20,7 @@ export default function HomeSection() {
                 <p className="info">
                     You can search and explore many kind of recipes here including the required ingridients and their nutritional propreties. Have fun exploring. You can select any of the desire tabs to start.
                     <br></br><br></br>Popular Recipe:
-                    Homemade Shakkshuka for 4.
+                    Homemade Shakkshuka for 5 people.
                     <br></br><br></br>This website was created by Amir, Dana, Lital and Michael.
                 </p>
                 <button className="btn">Explore Now</button>

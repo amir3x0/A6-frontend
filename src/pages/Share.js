@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 const Share = () => {
+    document.title = "Share Recipe";
     const [recipeName, setRecipeName] = useState('');
     const [difficulty, setDifficulty] = useState('');
     const [category, setCategory] = useState('');

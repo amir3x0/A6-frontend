@@ -85,11 +85,74 @@
 }
 
 
+
 .recipe-cards-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  // flex-wrap: wrap;
+  gap: 20px; /* Creates space between items */
+  // justify-content: center; /* Center items horizontally */
+  max-height: 400px; /* Set a max-height for the scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 10px; /* Add some padding inside the container */
+}
+
+.recipe-card.expanded {
+  grid-column: 1 / -1; /* Make the expanded card span all columns */
+}
+
+.recipe-card {
+  flex: 0 1 calc(33.333% - 20px); /* Adjusts the card width to fit 3 in a row, accounting for the gap */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  /* Creates space between items */
-  justify-content: center;
-  /* Center items horizontally */
+  // height: 400px; /* Example fixed height */
+  flex-direction: column;
+  cursor: pointer;
+  /* Ensure the image and details fit within this new size */
+}
+
+.recipe-card img {
+  width: 20%; /* Fill the container width */
+  max-height: 150px; /* Fixed height for consistency */
+  object-fit: cover; /* Cover the area without distortion */
+}
+
+.recipe-title {
+  font-size: 16px; /* Example font size */
+  font-weight: bold; /* Make title bold */
+  padding: 8px; /* Padding around the title */
+  text-align: center; /* Center-align the title */
+}
+
+.recipe-details {
+  padding: 8px; /* Padding for details */
+  font-size: 14px; /* Smaller font size than the title */
+  overflow-y: auto; /* Makes details scrollable if they exceed the card's height */
+  max-height: 200px; /* Example max height */
+}
+
+
+.title-and-button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px; /* Adjust space between title/button and recipes container */
+}
+
+.add-button {
+  /* Your existing styles for the button */
+  cursor: pointer; /* Ensures it's clear the button is clickable */
+}
+
+@media (max-width: 600px) {
+  .title-and-button-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .add-button {
+    margin-top: 10px; /* Adds some space between the title and the button on small screens */
+  }
 }

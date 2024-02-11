@@ -1,7 +1,10 @@
-export default function PlanMeal() {
+import PlanSection from "../components/PlanSection";
+
+export default function Plan() {
+    document.title = "Plan Meal";
     return (
         <div>
-            Plan A Meal
+            <PlanSection />
         </div>
     )
 }
