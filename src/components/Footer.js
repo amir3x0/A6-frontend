@@ -11,8 +11,8 @@ export default function Footer() {
                 <p className="title">Contact</p>
                 <p>
                     Amir: Amir.Mishayev@email@e.braude.ac.il<br></br>
-                    Dana: email@e.braude.ac.il<br></br>
-                    Lital: lital.leschinskyemail@e.braude.ac.il<br></br>
+                    Dana: Dana.Soudry@email@e.braude.ac.il<br></br>
+                    Lital: lital.leschinsky@email@e.braude.ac.il<br></br>
                     Michael: michael.trifonov@e.braude.ac.il<br></br>
                 </p>
             </div>
