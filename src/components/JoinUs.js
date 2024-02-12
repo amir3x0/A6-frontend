@@ -2,7 +2,7 @@ import CustomImage from "./CustomImage"
 
 export default function JoinUs() {
     
-    const images = ["/images/home_img/sign.png"]
+    const images = [process.env.PUBLIC_URL + "/images/home_img/sign.png"]
     const reasons = ["Worldwide Contribution.",
                      "Varified by the people.",
                      "2 is plenty."]
