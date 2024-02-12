@@ -1,23 +1,20 @@
 import React, { useState } from "react";
 import Recipe from "../components/RecipeCard";
 
+import ramsay from "../images/MyYummy_img/ramsay.JPG";
+
 const images = {
   ramsay: "/images/MyYummy_img/ramsay.JPG",
   spaghetti_carbonara: "/images/MyYummy_img/spaghetti_carbonara.jpg",
   Vegetarian_Chili: "/images/MyYummy_img/Vegetarian-Chili.jpg",
   lemon_salmon: "/images/MyYummy_img/lemon_salmon.jpg",
   chicken_tikka: "/images/MyYummy_img/chicken-tikka.jpg",
-  // 'star2': "/images/MyYummy_img/Pasta salad.png",
-  // 'main1': "/images/MyYummy_img/Dijon salmon and lemon.png",
-  // 'main2': "/images/MyYummy_img/Seasoned chicken.png",
-  // 'dess1': "/images/MyYummy_img/Chocolate Souffle.png",
-  // 'dess2': "/images//MyYummy_img/Apple pie.png"
 };
 
 const userData = {
   name: "Gordon Ramsay",
   username: "GRamsay",
-  profileImageUrl: images.ramsay,
+  profileImageUrl: ramsay,
   bio: "Food enthusiast. Love to cook and explore new recipes.",
 
   favoriteRecipes: [
