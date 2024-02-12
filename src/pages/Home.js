@@ -1,11 +1,9 @@
-import HomeSection from "../components/HomeSection";
-import JoinUs from "../components/JoinUs";
+import HomeComponent from "../components/HomeComponent";
 
 export default function Home() {
-    return (
-        <div>
-            <HomeSection />
-            <JoinUs />
-        </div>
-    )
+  return (
+    <div>
+      <HomeComponent />
+    </div>
+  );
 }
