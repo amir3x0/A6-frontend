@@ -84,7 +84,7 @@ const userData = {
       difficulty: "Easy",
       rank: 5,
       categories: ["Salads", "Vegetarian"],
-      picture: images.quinoa_salad, // Ensure this key exists in your `images` object
+      picture: images.Quinoa_Salad_with_Avocado, // Ensure this key exists in your `images` object
       calories: { total: 350, protein: "8g", carbs: "45g", fat: "18g" },
     },
 
@@ -101,7 +101,7 @@ const userData = {
       difficulty: "Medium",
       rank: 4,
       categories: ["Main Dishes", "Beef"],
-      picture: images.beef_stir_fry, // Ensure this key exists in your `images` object
+      picture: images.Beef_Stir_Fry, // Ensure this key exists in your `images` object
       calories: { total: 500, protein: "30g", carbs: "35g", fat: "22g" },
     },
 
@@ -117,7 +117,7 @@ const userData = {
       difficulty: "Medium",
       rank: 5,
       categories: ["Desserts", "Vegan"],
-      picture: images.vegan_chocolate_cake, // Ensure this key exists in your `images` object
+      picture: images.Vegan_Chocolate_Cake, // Ensure this key exists in your `images` object
       calories: { total: 450, protein: "6g", carbs: "60g", fat: "20g" },
     },
   ],
