@@ -18,6 +18,7 @@ function App() {
         <div className="container main">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/A6" element={<Home />} />
             <Route path="/Home" element={<Home />} /> Updated route definition
             <Route path="/Recipes" element={<Recipes />} />
             <Route path="/Plan" element={<PlanMeal />} />
