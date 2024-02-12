@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 
 // Sample recipe objects with name, image, and ingredients
 const recipes = [
-  { name: 'Filled pepper', image: '/images/recipe_img/filled_pepper.jpg', ingredients: ['4 large bell peppers', '1 lb beef', 'chopped onion'] },
-  { name: 'Meatballs', image: '/images/recipe_img/meatballs.jpg', ingredients: ['Ingredient A', 'Ingredient B', 'Ingredient C'] },
-  { name: 'Soup', image: '/images/recipe_img/soup.jpg', ingredients: ['Ingredient A', 'Ingredient B', 'Ingredient C'] },
+  { name: 'Filled pepper', image:process.env.PUBLIC_URL +  '/images/recipe_img/filled_pepper.jpg', ingredients: ['4 large bell peppers', '1 lb beef', 'chopped onion'] },
+  { name: 'Meatballs', image: process.env.PUBLIC_URL + '/images/recipe_img/meatballs.jpg', ingredients: ['Ingredient A', 'Ingredient B', 'Ingredient C'] },
+  { name: 'Soup', image: process.env.PUBLIC_URL + '/images/recipe_img/soup.jpg', ingredients: ['Ingredient A', 'Ingredient B', 'Ingredient C'] },
 ];
 
 // Additional three recipes to be displayed on the right side
 const additionalRecipes = [
-  { name: 'shakshuka', image: '/images/recipe_img/shakshuka.jpg', ingredients: ['Ingredient A', 'Ingredient B', 'Ingredient C'] },
-  { name: 'hamburger', image: '/images/recipe_img/hamburger.jpg', ingredients: ['Ingredient A', 'Ingredient B', 'Ingredient C'] },
-  { name: 'pizza', image: '/images/recipe_img/pizza.jpg', ingredients: ['Ingredient A', 'Ingredient B', 'Ingredient C'] },
+  { name: 'shakshuka', image: process.env.PUBLIC_URL + '/images/recipe_img/shakshuka.jpg', ingredients: ['Ingredient A', 'Ingredient B', 'Ingredient C'] },
+  { name: 'hamburger', image: process.env.PUBLIC_URL + '/images/recipe_img/hamburger.jpg', ingredients: ['Ingredient A', 'Ingredient B', 'Ingredient C'] },
+  { name: 'pizza', image: process.env.PUBLIC_URL + '/images/recipe_img/pizza.jpg', ingredients: ['Ingredient A', 'Ingredient B', 'Ingredient C'] },
 ];
 
 export default function RecipeSection() {
