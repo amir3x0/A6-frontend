@@ -17,13 +17,13 @@ function App() {
         <NavBar />
         <div className="container main">
           <Routes >
-            <Route path="/Home" element={<Home />} /> {/* Updated route definition */}
+            <Route path="/" element={<Home />} />
+            {/* <Route path="/Home" element={<Home />} /> Updated route definition */}
             <Route path="/Recipes" element={<Recipes />} />
             <Route path="/Plan" element={<PlanMeal />} />
             <Route path="/Share" element={<Share />} />
             <Route path="/Shopping" element={<Shopping />} />
             <Route path="/MyYummy" element={<MyYummy />} />
-            <Route path="/" element={<Home />} />
           </Routes>
         </div>
         <Footer />
