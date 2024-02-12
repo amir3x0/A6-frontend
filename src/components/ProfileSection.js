@@ -4,7 +4,7 @@ import Recipe from "../components/RecipeCard";
 import ramsay from "../images/MyYummy_img/ramsay.JPG";
 
 const images = {
-  ramsay: "/images/MyYummy_img/ramsay.JPG",
+  // ramsay: "/images/MyYummy_img/ramsay.JPG",
   spaghetti_carbonara: "/images/MyYummy_img/spaghetti_carbonara.jpg",
   Vegetarian_Chili: "/images/MyYummy_img/Vegetarian-Chili.jpg",
   lemon_salmon: "/images/MyYummy_img/lemon_salmon.jpg",
