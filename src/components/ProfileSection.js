@@ -11,6 +11,9 @@ const images = {
   Vegetarian_Chili: process.env.PUBLIC_URL + "/images/MyYummy_img/Vegetarian-Chili.jpg",
   lemon_salmon: process.env.PUBLIC_URL + "/images/MyYummy_img/lemon_salmon.jpg",
   chicken_tikka: process.env.PUBLIC_URL + "/images/MyYummy_img/chicken-tikka.jpg",
+  Beef_Stir_Fry: process.env.PUBLIC_URL + "/images/MyYummy_img/Beef-Stir-Fry.jpg",
+  Quinoa_Salad_with_Avocado: process.env.PUBLIC_URL + "/images/MyYummy_img/Quinoa-Salad-with-Avocado.jpg",
+  Vegan_Chocolate_Cake: process.env.PUBLIC_URL + "/images/MyYummy_img/Vegan-Chocolate-Cake.jpg",
 };
 
 const userData = {
