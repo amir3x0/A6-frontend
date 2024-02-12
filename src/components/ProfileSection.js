@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Recipe from "../components/RecipeCard";
 
-import ramsay from ".../images/MyYummy_img/ramsay.jpg";
+// Correct way to reference the image from the public directory in a JS file
+const ramsayImage = process.env.PUBLIC_URL + '/images/MyYummy_img/ramsay.jpg';
+
 
 const images = {
   // ramsay: "/images/MyYummy_img/ramsay.JPG",
@@ -14,7 +16,7 @@ const images = {
 const userData = {
   name: "Gordon Ramsay",
   username: "GRamsay",
-  profileImageUrl: ramsay,
+  profileImageUrl: ramsayImage,
   bio: "Food enthusiast. Love to cook and explore new recipes.",
 
   favoriteRecipes: [
