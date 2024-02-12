@@ -10,9 +10,9 @@ export default function Footer() {
             <div className="footer-section">
                 <p className="title">Contact</p>
                 <p>
-                    Amir: Amir.Mishayev@email@e.braude.ac.il<br></br>
-                    Dana: Dana.Soudry@email@e.braude.ac.il<br></br>
-                    Lital: lital.leschinsky@email@e.braude.ac.il<br></br>
+                    Amir: Amir.Mishayev@e.braude.ac.il<br></br>
+                    Dana: Dana.Soudry@e.braude.ac.il<br></br>
+                    Lital: lital.leschinsky@e.braude.ac.il<br></br>
                     Michael: michael.trifonov@e.braude.ac.il<br></br>
                 </p>
             </div>
