@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Recipe from "../components/RecipeCard";
 
-import ramsay from "../images/MyYummy_img/ramsay.JPG";
+import ramsay from "../images/MyYummy_img/ramsay.jpg";
 
 const images = {
   // ramsay: "/images/MyYummy_img/ramsay.JPG",
