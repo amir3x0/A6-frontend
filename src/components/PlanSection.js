@@ -1,15 +1,15 @@
 import React from 'react';
 
-const images = {'planBg': "/images/plan_img/planBg.jpg",
-                'app1': "/images/plan_img/appetiser1.png",
-                'app2': "/images/plan_img/appetiser2.png",
-                'app3': "/images/plan_img/appetiser3.png",
-                'star1': "/images/plan_img/Arancini.png",
-                'star2': "/images/plan_img/Pasta salad.png",
-                'main1': "/images/plan_img/Dijon salmon and lemon.png",
-                'main2': "/images/plan_img/Seasoned chicken.png",
-                'dess1': "/images/plan_img/Chocolate Souffle.png",
-                'dess2': "/images//plan_img/Apple pie.png"}
+const images = {'planBg':process.env.PUBLIC_URL +  "/images/plan_img/planBg.jpg",
+                'app1': process.env.PUBLIC_URL + "/images/plan_img/appetiser1.png",
+                'app2': process.env.PUBLIC_URL + "/images/plan_img/appetiser2.png",
+                'app3': process.env.PUBLIC_URL + "/images/plan_img/appetiser3.png",
+                'star1': process.env.PUBLIC_URL + "/images/plan_img/Arancini.png",
+                'star2': process.env.PUBLIC_URL + "/images/plan_img/Pasta salad.png",
+                'main1': process.env.PUBLIC_URL + "/images/plan_img/Dijon salmon and lemon.png",
+                'main2': process.env.PUBLIC_URL + "/images/plan_img/Seasoned chicken.png",
+                'dess1': process.env.PUBLIC_URL + "/images/plan_img/Chocolate Souffle.png",
+                'dess2': process.env.PUBLIC_URL + "/images//plan_img/Apple pie.png"}
 
 // Recipe component
 const Recipe = ({ name, imageUrl }) => {

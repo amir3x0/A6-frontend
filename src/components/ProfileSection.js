@@ -7,10 +7,10 @@ import Recipe from "../components/RecipeCard";
 
 const images = {
   ramsay : process.env.PUBLIC_URL + '/images/MyYummy_img/ramsay.jpg',
-  spaghetti_carbonara: "/images/MyYummy_img/spaghetti_carbonara.jpg",
-  Vegetarian_Chili: "/images/MyYummy_img/Vegetarian-Chili.jpg",
-  lemon_salmon: "/images/MyYummy_img/lemon_salmon.jpg",
-  chicken_tikka: "/images/MyYummy_img/chicken-tikka.jpg",
+  spaghetti_carbonara: process.env.PUBLIC_URL + "/images/MyYummy_img/spaghetti_carbonara.jpg",
+  Vegetarian_Chili: process.env.PUBLIC_URL + "/images/MyYummy_img/Vegetarian-Chili.jpg",
+  lemon_salmon: process.env.PUBLIC_URL + "/images/MyYummy_img/lemon_salmon.jpg",
+  chicken_tikka: process.env.PUBLIC_URL + "/images/MyYummy_img/chicken-tikka.jpg",
 };
 
 const userData = {
