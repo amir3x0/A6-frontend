@@ -1,5 +1,6 @@
 /////////// Template (This is our main page, what changes is only the components) //////////////
 import React from "react";
+import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import NavBar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -32,6 +33,16 @@ function App() {
     </Router>
   );
 }
+
+
+// function App() {
+//   return (
+//       <div className="App">
+//         <h1 className='text-red-500 '>Hello World</h1>
+//       </div>
+    
+//   );
+// }
 
 export default App;
 
