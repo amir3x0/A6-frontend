@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { AiOutlineMenu, AiOutlineClose} from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link, useLocation } from "react-router-dom";
-
 
 import { images } from "../constants/index.js";
 
@@ -16,16 +15,24 @@ const navItemsInfo = [
 ];
 
 const NavItem = ({ name }) => {
-  return (
-    <li className="relative group">
-      <a href="/" className="px-4 py-2">
-        {name}
-      </a>
-      <span className="text-blue-500 absolute transition-all duration-500 font-bold right-0 top-0 group-hover:right-[90%] opacity-0 group-hover:opacity-100">
-        /
-      </span>
-    </li>
-  );
+  const [dropdown, setDropdown] = useState(false);
+
+  const toggleDropdownHandler = () => {
+    setDropdown((curState) => {
+      return !curState;
+    });
+
+    return (
+      <li className="relative group">
+        <a href="/" className="px-4 py-2">
+          {name}
+        </a>
+        <span className="cursor-pointer text-blue-500 absolute transition-all duration-500 font-bold right-0 top-0 group-hover:right-[90%] opacity-0 group-hover:opacity-100">
+          /
+        </span>
+      </li>
+    );
+  };
 };
 
 const NavBar = () => {

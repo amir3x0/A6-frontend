@@ -1,6 +1,6 @@
 /////////// Template (This is our main page, what changes is only the components) //////////////
 import "./App.css";
-import Home from "./pages/Home";
+import Home from "./pages/home/Home";
 // import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 // import NavBar from "./components/Navbar";
 // import Recipes from "./pages/Recipes";
