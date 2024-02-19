@@ -4,10 +4,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#FF6363",
-        darkMode: {
-          heavy: "#E2E2D5",
-          light: "#888883",
+        primary: "#1565D8",
+        dark: {
+          light: "#5A7184",
+          hard: "#0D2436",
+          soft: "#183B56",
         },
       },
       fontFamily: {
