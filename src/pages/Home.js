@@ -1,11 +1,11 @@
 import HomeSection from "../components/HomeSection";
-import JoinUs from "../components/JoinUs";
+import React from "react";
 
-export default function Home() {
-    return (
-        <div>
-            <HomeSection />
-            <JoinUs />
-        </div>
-    )
-}
+const Home = () => {
+  return (
+    <HomeSection>
+    </HomeSection>
+  );
+};
+
+export default Home;

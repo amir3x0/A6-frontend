@@ -11,38 +11,36 @@ import Shopping from "./pages/Shopping";
 import MyYummy from "./pages/MyYummy";
 import Footer from "./components/Footer";
 
-function App() {
-  return (
-    <Router>
-      <div>
-        <NavBar />
-        <div className="container main">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/A6" element={<Home />} />
-            <Route path="/Home" element={<Home />} /> 
-            <Route path="/Recipes" element={<Recipes />} />
-            <Route path="/Plan" element={<PlanMeal />} />
-            <Route path="/Share" element={<Share />} />
-            <Route path="/Shopping" element={<Shopping />} />
-            <Route path="/MyYummy" element={<MyYummy />} />
-          </Routes>
-        </div>
-        <Footer />
-      </div>
-    </Router>
-  );
-}
-
-
 // function App() {
 //   return (
-//       <div className="App">
-//         <h1 className='text-red-500 '>Hello World</h1>
+//     <Router>
+//       <div>
+//         <NavBar />
+//         <div className="container main">
+//           <Routes>
+//             <Route path="/" element={<Home />} />
+//             <Route path="/A6" element={<Home />} />
+//             <Route path="/Home" element={<Home />} />
+//             <Route path="/Recipes" element={<Recipes />} />
+//             <Route path="/Plan" element={<PlanMeal />} />
+//             <Route path="/Share" element={<Share />} />
+//             <Route path="/Shopping" element={<Shopping />} />
+//             <Route path="/MyYummy" element={<MyYummy />} />
+//           </Routes>
+//         </div>
+//         <Footer />
 //       </div>
-    
+//     </Router>
 //   );
 // }
+
+function App() {
+  return (
+    <div className="App font-opensans">
+      <Home />
+    </div>
+  );
+}
 
 export default App;
 
