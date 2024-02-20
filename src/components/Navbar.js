@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link, useLocation } from "react-router-dom";
-
 import { images } from "../constants/index.js";
 
 const navItemsInfo = [
@@ -14,17 +12,17 @@ const navItemsInfo = [
   { name: "MyYummy", path: "/myyummy" },
 ];
 
-const NavItem = ({ item }) => {
-  const [dropdown, setDropdown] = useState(false);
+const NavItem = ({ item, onItemClick }) => {
+  // const [dropdown, setDropdown] = useState(false);
 
-  const toggleDropdownHandler = () => {
-    setDropdown((curState) => {
-      return !curState;
-    });
-  };
+  // const toggleDropdownHandler = () => {
+  //   setDropdown((curState) => {
+  //     return !curState;
+  //   });
+  // };
   return (
     <li className="relative group">
-      <Link to={item.path} className="px-4 py-2">
+      <Link to={item.path} className="px-4 py-2" onClick={onItemClick}>
         {item.name}
       </Link>
       <span className="cursor-pointer text-blue-500 absolute transition-all duration-500 font-bold right-0 top-0 group-hover:right-[90%] opacity-0 group-hover:opacity-100">
@@ -66,7 +64,11 @@ const NavBar = () => {
         >
           <ul className="text-white items-center gap-y-5 lg:text-dark-soft flex flex-col lg:flex-row gap-x-2 font-semibold">
             {navItemsInfo.map((item) => (
-              <NavItem key={item.name} item={item} />
+              <NavItem
+                key={item.name}
+                item={item}
+                onItemClick={navVisibilityHandler}
+              />
             ))}
           </ul>
           <button className="mt-5 lg:mt-0 border-2 border-blue-500 px-6 py-2 rounded-full text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-all duration-300">
@@ -79,66 +81,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-
-// export default function NavBar() {
-//     const [showSidebar, setShowSidebar] = useState(false);
-//     const location = useLocation(); // Used to determine the current path for active link styling
-//     const links = [
-//         {
-//             name: "Home",
-//             path: "/Home"
-//         },
-//         {
-//             name: "Recipes",
-//             path: "/Recipes"
-//         },
-//         {
-//             name: "Plan Meal",
-//             path: "/Plan"
-//         },
-//         {
-//             name: "Share",
-//             path: "/Share"
-//         },
-//         {
-//             name: "Shopping",
-//             path: "/Shopping"
-//         },
-//         {
-//             name: "MyYummy",
-//             path: "/MyYummy"
-//         },
-//     ];
-
-//     function closeSidebar(){
-//         setShowSidebar(false);
-//     };
-
-//     // const handleLinkClick = (event, pageName) => {
-//     //     event.preventDefault(); // Prevent default behavior of hyperlink
-//     //     onPageChange(pageName); // Update the current page
-//     // };
-
-//     return (
-//         <div className="navbar container">
-//             <Link to="/" className="logo">Yu<span>mm</span>y</Link>
-//             <div className="nav-links">
-//                 {links.map(link => (
-//                     <Link
-//                         to={link.path}
-//                         key={link.name}
-//                         className={location.pathname === link.path ? "active" : ""}
-//                     >
-//                         {link.name}
-//                     </Link>
-//                 ))}
-//             </div>
-//             <div onClick={() => setShowSidebar(true)} className="sidebar-btn">
-//                 <div className="bar"></div>
-//                 <div className="bar"></div>
-//                 <div className="bar"></div>
-//             </div>
-//             {showSidebar && <Sidebar close={closeSidebar} links={links} />}
-//         </div>
-//     );
-// }
