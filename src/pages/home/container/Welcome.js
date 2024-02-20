@@ -1,9 +1,19 @@
 import React from 'react';
-import { images } from "../../../constants";
 
 function Welcome() {
   document.title = "Home";
 
+  const images = ["../home_img/pasta.png",
+                  "../home_img/hamburger.png",
+                  "../home_img/Healthy.jpg",
+                  "../home_img/HungryHungry.jpg",
+                  "../home_img/shakshuka.png",
+                  "../home_img/toast.png",
+                  "../home_img/hummus.png",
+                  "../home_img/shrimp.png",
+                  "../home_img/snails.png",
+  ];
+  
   return (
     <div className="bg-white p-10">
       <div className="flex flex-col md:flex-row">
