@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { images } from "../constants/index.js";
 
 const navItemsInfo = [

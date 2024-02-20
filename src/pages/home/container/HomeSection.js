@@ -1,14 +1,10 @@
-import CustomImage from "./CustomImage";
 import React from "react";
-import NavBar from "./Navbar";
-import Footer from "./Footer";
 
 const HomeSection = ({children}) => {
   return (
     <div>
-      <NavBar />
+      hello
       {children}
-      <Footer />
     </div>
   );
 };
