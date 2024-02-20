@@ -1,15 +1,15 @@
 /////////// Template (This is our main page, what changes is only the components) //////////////
-import React from "react";
 import "./App.css";
+import Home from "./pages/home/Home";
+import Shopping from "./pages/shopping/Shopping";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import NavBar from "./components/Navbar";
-import Home from "./pages/Home";
 import Recipes from "./pages/Recipes";
 import PlanMeal from "./pages/Plan";
 import Share from "./pages/Share";
-import Shopping from "./pages/Shopping";
 import MyYummy from "./pages/MyYummy";
 import Footer from "./components/Footer";
+
 
 function App() {
   return (
@@ -19,12 +19,10 @@ function App() {
         <div className="container main">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/A6" element={<Home />} />
-            <Route path="/Home" element={<Home />} /> 
             <Route path="/Recipes" element={<Recipes />} />
             <Route path="/Plan" element={<PlanMeal />} />
             <Route path="/Share" element={<Share />} />
-            <Route path="/Shopping" element={<Shopping />} />
+            <Route path="/shopping/Shopping" element={<Shopping />} />
             <Route path="/MyYummy" element={<MyYummy />} />
           </Routes>
         </div>
@@ -35,15 +33,19 @@ function App() {
 }
 
 
+export default App;
+
 // function App() {
 //   return (
-//       <div className="App">
-//         <h1 className='text-red-500 '>Hello World</h1>
-//       </div>
-    
+//     <div className="App font-opensans">
+//       <Routes>
+//         <Route index path="/" element={<Home />} />
+//         <Route index path="/shopping:id" element={<Shopping />} />
+//       </Routes>
+//     </div>
 //   );
 // }
 
-export default App;
+
 
 ////////////////////////// End Of Template /////////////////////////////
