@@ -6,7 +6,7 @@ import { images } from "../constants/index.js";
 const navItemsInfo = [
   { name: "Home", path: "/" },
   { name: "Recipes", path: "/recipes" },
-  { name: "Plan Meal", path: "/plan-meal" },
+  { name: "Plan Meal", path: "/Plan" },
   { name: "Share", path: "/share" },
   { name: "Shopping", path: "/shopping" },
   { name: "MyYummy", path: "/myyummy" },
