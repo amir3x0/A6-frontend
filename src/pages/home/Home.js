@@ -1,12 +1,12 @@
-import HomeSection from "./container/HomeSection";
-import Welcome from "./container/Welcome"; 
 import React from "react";
+import Welcome from "./container/Welcome"; 
+import JoinUs from "./container/JoinUs";
 
 const Home = () => {
   return (
     <div>
       <Welcome />
-      <HomeSection />
+      <JoinUs />
     </div>
   );
 };
