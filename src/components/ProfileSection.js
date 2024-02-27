@@ -130,110 +130,67 @@ const userData = {
 };
 
 export default function MyYummy() {
-  // State to keep track of the selected recipe
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
-  const [expandedRecipeId, setExpandedRecipeId] = useState(null); // Add this line
+  const [expandedRecipeId, setExpandedRecipeId] = useState(null);
 
-  // Add a new function to handle expanding/collapsing a recipe card
   const handleRecipeClick = (id) => {
-    setExpandedRecipeId(expandedRecipeId === id ? null : id); // Toggle expansion
+    setExpandedRecipeId(expandedRecipeId === id ? null : id);
   };
 
   const handleRecipeSelect = (id) => {
     setSelectedRecipeId(id);
   };
-  // Function to handle the click event of the add recipe button
-  const handleAddRecipeClick = () => {
-    console.log("Add new recipe clicked!");
-    // Here, you would typically open a modal, display a form, or navigate to a new route
-  };
 
-  const handleAddMealPlanClick = () => {
-    console.log("Add new meal plan clicked!");
-    // Here, you would typically open a modal, display a form, or navigate to a new route
-  };
+  // Simplified button click handlers (demonstration purposes)
+  const handleAddRecipeClick = () => console.log("Add new recipe clicked!");
+  const handleAddMealPlanClick = () => console.log("Add new meal plan clicked!");
+
+  // Function to render RecipeCards for a given list of recipes
+  const renderRecipeCards = (recipes) => recipes.map((recipe) => (
+    <Recipe
+      key={recipe.id}
+      recipe={recipe}
+      isSelected={selectedRecipeId === recipe.id}
+      isExpanded={expandedRecipeId === recipe.id}
+      onSelect={() => handleRecipeSelect(recipe.id)}
+      onClick={() => handleRecipeClick(recipe.id)}
+    />
+  ));
 
   return (
-    <div className="profile-page">
-      <div className="profile-sidebar">
-        <img
-          src={userData.profileImageUrl}
-          alt="Profile"
-          className="profile-image"
-        />
-        <h2 className="user-name">{userData.name}</h2>
-        <h2 className="user-username">@{userData.username}</h2>
-        <p className="user-bio">{userData.bio}</p>
-        <button className="settings-button">Settings</button>
+    <div className="flex">
+      <div className="w-1/4 p-4">
+        <img src={userData.profileImageUrl} alt="Profile" className="rounded-full h-32 w-32 mx-auto" />
+        <h2 className="text-xl font-bold text-center mt-2">{userData.name}</h2>
+        <p className="text-sm text-center text-gray-600">@{userData.username}</p>
+        <p className="text-center mt-3">{userData.bio}</p>
+        <button className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Settings
+        </button>
       </div>
 
-      <div className="profile-content">
-        <div className="section-header">
-          <div>
-            <h2>Favorite Recipes</h2>
-            <div className="recipe-cards-container">
-              {" "}
-              {/* Use updated class for grid layout */}
-              {userData.favoriteRecipes.map((recipe) => (
-                <Recipe
-                  key={recipe.id}
-                  recipe={{
-                    ...recipe,
-                    picture: recipe.picture, // Ensuring a fallback to an existing picture URL
-                  }}
-                  isSelected={selectedRecipeId === recipe.id}
-                  isExpanded={expandedRecipeId === recipe.id} // Pass isExpanded prop to RecipeCard
-                  onSelect={() => handleRecipeSelect(recipe.id)}
-                  onClick={() => handleRecipeClick(recipe.id)} // Pass onClick handler
-                />
-              ))}
-            </div>
+      <div className="w-3/4 p-4">
+        <section>
+          <h2 className="text-2xl font-bold">Favorite Recipes</h2>
+          <div className="grid grid-cols-3 gap-4 mt-4">
+            {renderRecipeCards(userData.favoriteRecipes)}
           </div>
-        </div>
+        </section>
 
-        <div className="section-header">
-          <div>
-            <h2>Uploaded Recipes</h2>
-            <button className="add-button" onClick={handleAddRecipeClick}>
-              +
-            </button>
-            <div className="recipe-cards-container">
-              {" "}
-              {/* Use updated class for grid layout */}
-              {userData.uploadedRecipes.map((recipe) => (
-                <Recipe
-                  key={recipe.id}
-                  recipe={{
-                    ...recipe,
-                    picture: recipe.picture, // Ensuring a fallback to an existing picture URL
-                  }}
-                  isSelected={selectedRecipeId === recipe.id}
-                  isExpanded={expandedRecipeId === recipe.id} // Pass isExpanded prop to RecipeCard
-                  onSelect={() => handleRecipeSelect(recipe.id)}
-                  onClick={() => handleRecipeClick(recipe.id)} // Pass onClick handler
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Render the uploaded recipes from the user data */}
-        <div className="section-header">
-          <h2>Meal Plans</h2>
-          <button className="add-button" onClick={handleAddMealPlanClick}>
+        <section className="mt-8">
+          <h2 className="text-2xl font-bold">Uploaded Recipes</h2>
+          <button
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4"
+            onClick={handleAddRecipeClick}
+          >
             +
           </button>
-        </div>
-        {/* <ul className="meal-plan-list">
-                          {userData.mealPlans.map((plan) => (
-                            <li key={plan.id}>{plan.title}</li>
-                          ))}
-                        </ul> */}
-        <ul className="meal-plan-list">
-          {/* Example meal plan list items */}
-          <li>Weekly Family Plan</li>
-          <li>Low Carb Plan</li>
-        </ul>
+          <div className="grid grid-cols-3 gap-4 mt-4">
+            {renderRecipeCards(userData.uploadedRecipes)}
+          </div>
+        </section>
+
+        {/* Additional sections for Meal Plans, etc., can follow the same pattern */}
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import NavBar from "./components/Navbar";
 import Recipes from "./pages/Recipes";
 import PlanMeal from "./pages/Plan";
 import Share from "./pages/Share";
-import MyYummy from "./pages/MyYummy";
+import MyYummy from "./pages/profile/MyYummy";
 import Footer from "./components/Footer";
 
 
