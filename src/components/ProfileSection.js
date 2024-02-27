@@ -1,19 +1,25 @@
 import React, { useState } from "react";
 import Recipe from "../components/RecipeCard";
+import Settings from "./settings"; // Adjust the import path as necessary
 
 // Correct way to reference the image from the public directory in a JS file
 
-
-
 const images = {
-  ramsay : process.env.PUBLIC_URL + '/images/MyYummy_img/ramsay.jpg',
-  spaghetti_carbonara: process.env.PUBLIC_URL + "/images/MyYummy_img/spaghetti_carbonara.jpg",
-  Vegetarian_Chili: process.env.PUBLIC_URL + "/images/MyYummy_img/Vegetarian-Chili.jpg",
+  ramsay: process.env.PUBLIC_URL + "/images/MyYummy_img/ramsay.jpg",
+  spaghetti_carbonara:
+    process.env.PUBLIC_URL + "/images/MyYummy_img/spaghetti_carbonara.jpg",
+  Vegetarian_Chili:
+    process.env.PUBLIC_URL + "/images/MyYummy_img/Vegetarian-Chili.jpg",
   lemon_salmon: process.env.PUBLIC_URL + "/images/MyYummy_img/lemon_salmon.jpg",
-  chicken_tikka: process.env.PUBLIC_URL + "/images/MyYummy_img/chicken-tikka.jpg",
-  Beef_Stir_Fry: process.env.PUBLIC_URL + "/images/MyYummy_img/Beef-Stir-Fry.jpg",
-  Quinoa_Salad_with_Avocado: process.env.PUBLIC_URL + "/images/MyYummy_img/Quinoa-Salad-with-Avocado.jpg",
-  Vegan_Chocolate_Cake: process.env.PUBLIC_URL + "/images/MyYummy_img/Vegan-Chocolate-Cake.jpg",
+  chicken_tikka:
+    process.env.PUBLIC_URL + "/images/MyYummy_img/chicken-tikka.jpg",
+  Beef_Stir_Fry:
+    process.env.PUBLIC_URL + "/images/MyYummy_img/Beef-Stir-Fry.jpg",
+  Quinoa_Salad_with_Avocado:
+    process.env.PUBLIC_URL +
+    "/images/MyYummy_img/Quinoa-Salad-with-Avocado.jpg",
+  Vegan_Chocolate_Cake:
+    process.env.PUBLIC_URL + "/images/MyYummy_img/Vegan-Chocolate-Cake.jpg",
 };
 
 const userData = {
@@ -132,66 +138,104 @@ const userData = {
 export default function MyYummy() {
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
   const [expandedRecipeId, setExpandedRecipeId] = useState(null);
+  const [showSettings, setShowSettings] = useState(false);
 
-  const handleRecipeClick = (id) => {
+  const handleRecipeClick = (id) =>
     setExpandedRecipeId(expandedRecipeId === id ? null : id);
-  };
+  const handleRecipeSelect = (id) => setSelectedRecipeId(id);
+  const toggleSettings = () => setShowSettings(!showSettings);
 
-  const handleRecipeSelect = (id) => {
-    setSelectedRecipeId(id);
-  };
+  const renderRecipeCards = (recipes) =>
+    recipes.map((recipe) => (
+      <Recipe
+        key={recipe.id}
+        recipe={recipe}
+        isSelected={selectedRecipeId === recipe.id}
+        isExpanded={expandedRecipeId === recipe.id}
+        onSelect={() => handleRecipeSelect(recipe.id)}
+        onClick={() => handleRecipeClick(recipe.id)}
+      />
+    ));
 
-  // Simplified button click handlers (demonstration purposes)
-  const handleAddRecipeClick = () => console.log("Add new recipe clicked!");
-  const handleAddMealPlanClick = () => console.log("Add new meal plan clicked!");
-
-  // Function to render RecipeCards for a given list of recipes
-  const renderRecipeCards = (recipes) => recipes.map((recipe) => (
-    <Recipe
-      key={recipe.id}
-      recipe={recipe}
-      isSelected={selectedRecipeId === recipe.id}
-      isExpanded={expandedRecipeId === recipe.id}
-      onSelect={() => handleRecipeSelect(recipe.id)}
-      onClick={() => handleRecipeClick(recipe.id)}
-    />
-  ));
+  // Custom function to render the Add button
+  const renderAddButton = (onClickFunction, buttonText = "+") => (
+    <button
+      className="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      onClick={onClickFunction}
+    >
+      {buttonText}
+    </button>
+  );
 
   return (
     <div className="flex">
-      <div className="w-1/4 p-4">
-        <img src={userData.profileImageUrl} alt="Profile" className="rounded-full h-32 w-32 mx-auto" />
-        <h2 className="text-xl font-bold text-center mt-2">{userData.name}</h2>
-        <p className="text-sm text-center text-gray-600">@{userData.username}</p>
-        <p className="text-center mt-3">{userData.bio}</p>
-        <button className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Settings
-        </button>
-      </div>
+<div className="flex flex-col items-center w-1/3 p-6 bg-white rounded-lg shadow-xl">
+    <img
+      src={userData.profileImageUrl}
+      alt="Profile"
+      className="rounded-full h-48 w-48 object-cover shadow-lg border-4 border-blue-300"
+    />
+    <h2 className="text-3xl font-extrabold text-center mt-4 text-blue-600">{userData.name}</h2>
+    <p className="text-base text-center text-gray-500 mt-2">
+      @{userData.username}
+    </p>
+    <p className="text-center mt-4 text-lg text-gray-700">{userData.bio}</p>
+    <button
+      className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition-colors duration-150 ease-in-out"
+      onClick={toggleSettings}
+    >
+      Settings
+    </button>
+</div>
 
-      <div className="w-3/4 p-4">
-        <section>
-          <h2 className="text-2xl font-bold">Favorite Recipes</h2>
-          <div className="grid grid-cols-3 gap-4 mt-4">
+
+      <div className="w-2/3 p-4 space-y-8">
+        {/* Favorite Recipes */}
+        <div>
+          <div className="flex justify-between items-center">
+            <h2 className="text-4xl font-extrabold text-indigo-600 tracking-tight">Favorite Recipes</h2>
+            {renderAddButton(() => console.log("Add Favorite Recipe"))}
+          </div>
+          <div className="grid grid-cols-3 gap-6 mt-4 overflow-auto max-h-[30rem]">
             {renderRecipeCards(userData.favoriteRecipes)}
           </div>
-        </section>
+        </div>
 
-        <section className="mt-8">
-          <h2 className="text-2xl font-bold">Uploaded Recipes</h2>
-          <button
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4"
-            onClick={handleAddRecipeClick}
-          >
-            +
-          </button>
-          <div className="grid grid-cols-3 gap-4 mt-4">
+        {/* Uploaded Recipes */}
+        <div>
+          <div className="flex justify-between items-center">
+            <h2 className="text-4xl font-extrabold text-indigo-600 tracking-tight">Uploaded Recipes</h2>
+            {renderAddButton(() => console.log("Add Uploaded Recipe"))}
+          </div>
+          <div className="grid grid-cols-3 gap-6 mt-4 overflow-auto max-h-[30rem]">
             {renderRecipeCards(userData.uploadedRecipes)}
           </div>
-        </section>
+        </div>
 
-        {/* Additional sections for Meal Plans, etc., can follow the same pattern */}
+        {/* Meal Plans */}
+        <div>
+          <div className="flex justify-between items-center">
+            <h2 className="text-4xl font-extrabold text-indigo-600 tracking-tight">Meal Plans</h2>
+            {renderAddButton(
+              () => console.log("Add Meal Plan"),
+             "+"
+            )}
+          </div>
+          <div className="mt-4 overflow-auto max-h-[30rem]">
+            {userData.mealPlans.map((plan) => (
+              <div key={plan.id} className="py-2">
+                {plan.title}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
+
     </div>
   );
 }
+
+
+
+
+
