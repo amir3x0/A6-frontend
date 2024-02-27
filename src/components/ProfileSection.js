@@ -1,19 +1,25 @@
 import React, { useState } from "react";
 import Recipe from "../components/RecipeCard";
+import Settings from "./settings"; // Adjust the import path as necessary
 
 // Correct way to reference the image from the public directory in a JS file
 
-
-
 const images = {
-  ramsay : process.env.PUBLIC_URL + '/images/MyYummy_img/ramsay.jpg',
-  spaghetti_carbonara: process.env.PUBLIC_URL + "/images/MyYummy_img/spaghetti_carbonara.jpg",
-  Vegetarian_Chili: process.env.PUBLIC_URL + "/images/MyYummy_img/Vegetarian-Chili.jpg",
+  ramsay: process.env.PUBLIC_URL + "/images/MyYummy_img/ramsay.jpg",
+  spaghetti_carbonara:
+    process.env.PUBLIC_URL + "/images/MyYummy_img/spaghetti_carbonara.jpg",
+  Vegetarian_Chili:
+    process.env.PUBLIC_URL + "/images/MyYummy_img/Vegetarian-Chili.jpg",
   lemon_salmon: process.env.PUBLIC_URL + "/images/MyYummy_img/lemon_salmon.jpg",
-  chicken_tikka: process.env.PUBLIC_URL + "/images/MyYummy_img/chicken-tikka.jpg",
-  Beef_Stir_Fry: process.env.PUBLIC_URL + "/images/MyYummy_img/Beef-Stir-Fry.jpg",
-  Quinoa_Salad_with_Avocado: process.env.PUBLIC_URL + "/images/MyYummy_img/Quinoa-Salad-with-Avocado.jpg",
-  Vegan_Chocolate_Cake: process.env.PUBLIC_URL + "/images/MyYummy_img/Vegan-Chocolate-Cake.jpg",
+  chicken_tikka:
+    process.env.PUBLIC_URL + "/images/MyYummy_img/chicken-tikka.jpg",
+  Beef_Stir_Fry:
+    process.env.PUBLIC_URL + "/images/MyYummy_img/Beef-Stir-Fry.jpg",
+  Quinoa_Salad_with_Avocado:
+    process.env.PUBLIC_URL +
+    "/images/MyYummy_img/Quinoa-Salad-with-Avocado.jpg",
+  Vegan_Chocolate_Cake:
+    process.env.PUBLIC_URL + "/images/MyYummy_img/Vegan-Chocolate-Cake.jpg",
 };
 
 const userData = {
@@ -130,111 +136,106 @@ const userData = {
 };
 
 export default function MyYummy() {
-  // State to keep track of the selected recipe
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
-  const [expandedRecipeId, setExpandedRecipeId] = useState(null); // Add this line
+  const [expandedRecipeId, setExpandedRecipeId] = useState(null);
+  const [showSettings, setShowSettings] = useState(false);
 
-  // Add a new function to handle expanding/collapsing a recipe card
-  const handleRecipeClick = (id) => {
-    setExpandedRecipeId(expandedRecipeId === id ? null : id); // Toggle expansion
-  };
+  const handleRecipeClick = (id) =>
+    setExpandedRecipeId(expandedRecipeId === id ? null : id);
+  const handleRecipeSelect = (id) => setSelectedRecipeId(id);
+  const toggleSettings = () => setShowSettings(!showSettings);
 
-  const handleRecipeSelect = (id) => {
-    setSelectedRecipeId(id);
-  };
-  // Function to handle the click event of the add recipe button
-  const handleAddRecipeClick = () => {
-    console.log("Add new recipe clicked!");
-    // Here, you would typically open a modal, display a form, or navigate to a new route
-  };
+  const renderRecipeCards = (recipes) =>
+    recipes.map((recipe) => (
+      <Recipe
+        key={recipe.id}
+        recipe={recipe}
+        isSelected={selectedRecipeId === recipe.id}
+        isExpanded={expandedRecipeId === recipe.id}
+        onSelect={() => handleRecipeSelect(recipe.id)}
+        onClick={() => handleRecipeClick(recipe.id)}
+      />
+    ));
 
-  const handleAddMealPlanClick = () => {
-    console.log("Add new meal plan clicked!");
-    // Here, you would typically open a modal, display a form, or navigate to a new route
-  };
+  // Custom function to render the Add button
+  const renderAddButton = (onClickFunction, buttonText = "+") => (
+    <button
+      className="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      onClick={onClickFunction}
+    >
+      {buttonText}
+    </button>
+  );
 
   return (
-    <div className="profile-page">
-      <div className="profile-sidebar">
-        <img
-          src={userData.profileImageUrl}
-          alt="Profile"
-          className="profile-image"
-        />
-        <h2 className="user-name">{userData.name}</h2>
-        <h2 className="user-username">@{userData.username}</h2>
-        <p className="user-bio">{userData.bio}</p>
-        <button className="settings-button">Settings</button>
-      </div>
+    <div className="flex">
+<div className="flex flex-col items-center w-1/3 p-6 bg-white rounded-lg shadow-xl">
+    <img
+      src={userData.profileImageUrl}
+      alt="Profile"
+      className="rounded-full h-48 w-48 object-cover shadow-lg border-4 border-blue-300"
+    />
+    <h2 className="text-3xl font-extrabold text-center mt-4 text-blue-600">{userData.name}</h2>
+    <p className="text-base text-center text-gray-500 mt-2">
+      @{userData.username}
+    </p>
+    <p className="text-center mt-4 text-lg text-gray-700">{userData.bio}</p>
+    <button
+      className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition-colors duration-150 ease-in-out"
+      onClick={toggleSettings}
+    >
+      Settings
+    </button>
+</div>
 
-      <div className="profile-content">
-        <div className="section-header">
-          <div>
-            <h2>Favorite Recipes</h2>
-            <div className="recipe-cards-container">
-              {" "}
-              {/* Use updated class for grid layout */}
-              {userData.favoriteRecipes.map((recipe) => (
-                <Recipe
-                  key={recipe.id}
-                  recipe={{
-                    ...recipe,
-                    picture: recipe.picture, // Ensuring a fallback to an existing picture URL
-                  }}
-                  isSelected={selectedRecipeId === recipe.id}
-                  isExpanded={expandedRecipeId === recipe.id} // Pass isExpanded prop to RecipeCard
-                  onSelect={() => handleRecipeSelect(recipe.id)}
-                  onClick={() => handleRecipeClick(recipe.id)} // Pass onClick handler
-                />
-              ))}
-            </div>
+
+      <div className="w-2/3 p-4 space-y-8">
+        {/* Favorite Recipes */}
+        <div>
+          <div className="flex justify-between items-center">
+            <h2 className="text-4xl font-extrabold text-indigo-600 tracking-tight">Favorite Recipes</h2>
+            {renderAddButton(() => console.log("Add Favorite Recipe"))}
+          </div>
+          <div className="grid grid-cols-3 gap-6 mt-4 overflow-auto max-h-[30rem]">
+            {renderRecipeCards(userData.favoriteRecipes)}
           </div>
         </div>
 
-        <div className="section-header">
-          <div>
-            <h2>Uploaded Recipes</h2>
-            <button className="add-button" onClick={handleAddRecipeClick}>
-              +
-            </button>
-            <div className="recipe-cards-container">
-              {" "}
-              {/* Use updated class for grid layout */}
-              {userData.uploadedRecipes.map((recipe) => (
-                <Recipe
-                  key={recipe.id}
-                  recipe={{
-                    ...recipe,
-                    picture: recipe.picture, // Ensuring a fallback to an existing picture URL
-                  }}
-                  isSelected={selectedRecipeId === recipe.id}
-                  isExpanded={expandedRecipeId === recipe.id} // Pass isExpanded prop to RecipeCard
-                  onSelect={() => handleRecipeSelect(recipe.id)}
-                  onClick={() => handleRecipeClick(recipe.id)} // Pass onClick handler
-                />
-              ))}
-            </div>
+        {/* Uploaded Recipes */}
+        <div>
+          <div className="flex justify-between items-center">
+            <h2 className="text-4xl font-extrabold text-indigo-600 tracking-tight">Uploaded Recipes</h2>
+            {renderAddButton(() => console.log("Add Uploaded Recipe"))}
+          </div>
+          <div className="grid grid-cols-3 gap-6 mt-4 overflow-auto max-h-[30rem]">
+            {renderRecipeCards(userData.uploadedRecipes)}
           </div>
         </div>
 
-        {/* Render the uploaded recipes from the user data */}
-        <div className="section-header">
-          <h2>Meal Plans</h2>
-          <button className="add-button" onClick={handleAddMealPlanClick}>
-            +
-          </button>
+        {/* Meal Plans */}
+        <div>
+          <div className="flex justify-between items-center">
+            <h2 className="text-4xl font-extrabold text-indigo-600 tracking-tight">Meal Plans</h2>
+            {renderAddButton(
+              () => console.log("Add Meal Plan"),
+             "+"
+            )}
+          </div>
+          <div className="mt-4 overflow-auto max-h-[30rem]">
+            {userData.mealPlans.map((plan) => (
+              <div key={plan.id} className="py-2">
+                {plan.title}
+              </div>
+            ))}
+          </div>
         </div>
-        {/* <ul className="meal-plan-list">
-                          {userData.mealPlans.map((plan) => (
-                            <li key={plan.id}>{plan.title}</li>
-                          ))}
-                        </ul> */}
-        <ul className="meal-plan-list">
-          {/* Example meal plan list items */}
-          <li>Weekly Family Plan</li>
-          <li>Low Carb Plan</li>
-        </ul>
       </div>
+
     </div>
   );
 }
+
+
+
+
+

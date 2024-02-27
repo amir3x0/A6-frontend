@@ -1,31 +1,38 @@
 import React from 'react';
 
 const RecipeCard = ({ recipe, isExpanded, onClick }) => {
-  // Now using isExpanded and onClick passed from the parent component
-
   return (
-    <div className={`recipe-card ${isExpanded ? "expanded" : ""}`} onClick={onClick}>
-      <img src={recipe.picture} alt={recipe.title} style={{ width: '100%', objectFit: 'cover', height: '200px' }} />
-      <div className="recipe-card-info">
-        <p className="recipe-title">{recipe.title}</p>
-        <p className="recipe-desc">{isExpanded ? recipe.description : ""}</p>
+    <div
+      className={`border border-gray-200 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out cursor-pointer ${isExpanded ? "scale-105" : "scale-100"} `}
+      onClick={onClick}
+    >
+      <img
+        src={recipe.picture}
+        alt={recipe.title}
+        className="w-full h-48 object-cover"
+      />
+      <div className="p-4">
+        <p className="text-lg font-semibold text-gray-800">{recipe.title}</p>
         {isExpanded && (
-          <div className="recipe-details">
-            <ul>
-              {recipe.instructions.map((step, index) => (
-                <li key={index}>{step}</li>
-              ))}
-            </ul>
-            <p>Difficulty: {recipe.difficulty}</p>
-            <p>Rank: {'★'.repeat(recipe.rank)}{'☆'.repeat(5 - recipe.rank)}</p>
-            <p>Categories: {recipe.categories.join(', ')}</p>
-            <div className="recipe-nutrition">
-              <p>Calories: {recipe.calories.total} kcal</p>
-              <p>Protein: {recipe.calories.protein}</p>
-              <p>Carbs: {recipe.calories.carbs}</p>
-              <p>Fat: {recipe.calories.fat}</p>
+          <>
+            <p className="text-gray-600 mt-2">{recipe.description}</p>
+            <div className="mt-4">
+              <ul className="list-disc list-inside">
+                {recipe.instructions.map((step, index) => (
+                  <li key={index} className="text-sm text-gray-700">{step}</li>
+                ))}
+              </ul>
+              <p className="text-sm mt-2">Difficulty: {recipe.difficulty}</p>
+              <p className="text-sm">Rank: {'★'.repeat(recipe.rank)}{'☆'.repeat(5 - recipe.rank)}</p>
+              <p className="text-sm">Categories: {recipe.categories.join(', ')}</p>
+              <div className="mt-2">
+                <p className="text-sm">Calories: {recipe.calories.total} kcal</p>
+                <p className="text-sm">Protein: {recipe.calories.protein}g</p>
+                <p className="text-sm">Carbs: {recipe.calories.carbs}g</p>
+                <p className="text-sm">Fat: {recipe.calories.fat}g</p>
+              </div>
             </div>
-          </div>
+          </>
         )}
       </div>
     </div>

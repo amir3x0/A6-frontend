@@ -1,21 +1,26 @@
-/////////// Template (This is our main page, what changes is only the components) //////////////
-import "./App.css";
-import Home from "./pages/home/Home";
-import Shopping from "./pages/shopping/Shopping";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import NavBar from "./components/Navbar";
+import SignInPage from "./components/SignInPage";
+import SignUpPage from "./components/SignUpPage";
+import Home from "./pages/home/Home";
+import Shopping from "./pages/shopping/Shopping";
 import Recipes from "./pages/Recipes";
 import PlanMeal from "./pages/Plan";
 import Share from "./pages/Share";
-import MyYummy from "./pages/MyYummy";
+import MyYummy from "./pages/profile/MyYummy";
 import Footer from "./components/Footer";
 
-
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogin = () => setIsLoggedIn(true);
+  const handleLogout = () => setIsLoggedIn(false);
+
   return (
     <Router>
       <div>
-        <NavBar />
+        <NavBar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
         <div className="container main">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -23,7 +28,9 @@ function App() {
             <Route path="/Plan" element={<PlanMeal />} />
             <Route path="/Share" element={<Share />} />
             <Route path="/shopping/Shopping" element={<Shopping />} />
-            <Route path="/MyYummy" element={<MyYummy />} />
+            {isLoggedIn && <Route path="/MyYummy" element={<MyYummy />} />}
+            <Route path="/signin" element={<SignInPage onSignIn={handleLogin} />} />
+            <Route path="/signup" element={<SignUpPage />} />
           </Routes>
         </div>
         <Footer />
@@ -32,20 +39,4 @@ function App() {
   );
 }
 
-
 export default App;
-
-// function App() {
-//   return (
-//     <div className="App font-opensans">
-//       <Routes>
-//         <Route index path="/" element={<Home />} />
-//         <Route index path="/shopping:id" element={<Shopping />} />
-//       </Routes>
-//     </div>
-//   );
-// }
-
-
-
-////////////////////////// End Of Template /////////////////////////////
