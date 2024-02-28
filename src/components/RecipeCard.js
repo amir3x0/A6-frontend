@@ -8,7 +8,13 @@ const CategoryLabels = {
   dessert: 'Dessert',
 };
 
-const RecipeCard = ({ recipe, isExpanded, onClick }) => {
+const RecipeCard = ({ recipe, isExpanded, onClick, onSelect }) => {
+  // Function to handle select button click without propagating to card click
+  const handleSelectClick = (e) => {
+    e.stopPropagation(); // Prevent onClick for the card from being called
+    onSelect(recipe); // Call the onSelect handler passed from the parent
+  };
+
   return (
     <div
       className={`border border-gray-200 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out cursor-pointer ${isExpanded ? "scale-105" : "scale-100"} `}
@@ -47,6 +53,13 @@ const RecipeCard = ({ recipe, isExpanded, onClick }) => {
                 <p className="text-sm">Fat: {recipe.calories.fat}g</p>
               </div>
             </div>
+            {/* Add a button to handle recipe selection */}
+            <button
+              onClick={handleSelectClick}
+              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              {isExpanded ? 'Select' : 'Select'}
+            </button>
           </>
         )}
       </div>

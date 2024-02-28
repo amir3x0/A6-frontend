@@ -5,7 +5,7 @@ import Shopping from "./pages/shopping/Shopping";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import NavBar from "./components/Navbar";
 import Recipes from "./pages/Recipes";
-import PlanMeal from "./pages/Plan";
+import PlanMeal from "./pages/plan/Plan";
 import Share from "./pages/share/Share";
 import MyYummy from "./pages/profile/MyYummy";
 import Footer from "./components/Footer";

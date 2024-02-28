@@ -1,4 +1,4 @@
-import PlanSection from "../components/PlanSection";
+import PlanSection from "../../components/PlanSection";
 
 export default function Plan() {
     document.title = "Plan Meal";
