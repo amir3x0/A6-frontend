@@ -39,7 +39,7 @@ const Share = () => {
     };
 
     const handleShare = () => {
-        // Handle sharing logic here
+        //TODO Send stuff to db.
     };
 
     const ingredientTypes = {
@@ -50,7 +50,7 @@ const Share = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-6 bg-white-500 shadow-lg">
+        <div className="max-w-4xl mx-auto p-6 bg-gray-50 shadow-lg">
             <h1 className="flex justify-center text-4xl font-semibold text-gray-800 my-10">Share Your Recipe</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
@@ -160,7 +160,7 @@ const Share = () => {
             
             {/* Share Button */}
             <div className="flex justify-center my-10">
-                <button onClick={handleShare} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                <button onClick={handleShare} className="transition duration-300 hover:-translate-y-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Share
                 </button>
             </div>
