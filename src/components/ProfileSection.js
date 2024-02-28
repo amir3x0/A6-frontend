@@ -147,14 +147,20 @@ export default function MyYummy() {
 
   const renderRecipeCards = (recipes) =>
     recipes.map((recipe) => (
-      <Recipe
+      <div
         key={recipe.id}
-        recipe={recipe}
-        isSelected={selectedRecipeId === recipe.id}
-        isExpanded={expandedRecipeId === recipe.id}
-        onSelect={() => handleRecipeSelect(recipe.id)}
-        onClick={() => handleRecipeClick(recipe.id)}
-      />
+        className={`${
+          expandedRecipeId === recipe.id ? "col-span-3" : "col-span-1"
+        } transition-all duration-300 ease-in-out`}
+      >
+        <Recipe
+          recipe={recipe}
+          isSelected={selectedRecipeId === recipe.id}
+          isExpanded={expandedRecipeId === recipe.id}
+          onSelect={() => handleRecipeSelect(recipe.id)}
+          onClick={() => handleRecipeClick(recipe.id)}
+        />
+      </div>
     ));
 
   // Custom function to render the Add button
@@ -168,74 +174,86 @@ export default function MyYummy() {
   );
 
   return (
-    <div className="flex">
-<div className="flex flex-col items-center w-1/3 p-6 bg-white rounded-lg shadow-xl">
-    <img
-      src={userData.profileImageUrl}
-      alt="Profile"
-      className="rounded-full h-48 w-48 object-cover shadow-lg border-4 border-blue-300"
-    />
-    <h2 className="text-3xl font-extrabold text-center mt-4 text-blue-600">{userData.name}</h2>
-    <p className="text-base text-center text-gray-500 mt-2">
-      @{userData.username}
-    </p>
-    <p className="text-center mt-4 text-lg text-gray-700">{userData.bio}</p>
-    <button
-      className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition-colors duration-150 ease-in-out"
-      onClick={toggleSettings}
-    >
-      Settings
-    </button>
-</div>
-
-
-      <div className="w-2/3 p-4 space-y-8">
-        {/* Favorite Recipes */}
-        <div>
-          <div className="flex justify-between items-center">
-            <h2 className="text-4xl font-extrabold text-indigo-600 tracking-tight">Favorite Recipes</h2>
-            {renderAddButton(() => console.log("Add Favorite Recipe"))}
-          </div>
-          <div className="grid grid-cols-3 gap-6 mt-4 overflow-auto max-h-[30rem]">
-            {renderRecipeCards(userData.favoriteRecipes)}
-          </div>
+    <div className="container mx-auto px-5">
+      <div className="flex flex-wrap -mb-4">
+        {/*profile and settings Block*/}
+        <div className="flex flex-col items-center w-1/3 p-6 bg-white rounded-lg shadow-xl">
+          <img
+            src={userData.profileImageUrl}
+            alt="Profile"
+            className="rounded-full h-48 w-48 object-cover shadow-lg border-4 border-blue-300"
+          />
+          <h2 className="text-3xl font-extrabold text-center mt-4 text-blue-600">
+            {userData.name}
+          </h2>
+          <p className="text-base text-center text-gray-500 mt-2">
+            @{userData.username}
+          </p>
+          <p className="text-center mt-4 text-lg text-gray-700">
+            {userData.bio}
+          </p>
+          <button
+            className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition-colors duration-150 ease-in-out"
+            onClick={toggleSettings}
+          >
+            Settings
+          </button>
         </div>
 
-        {/* Uploaded Recipes */}
-        <div>
-          <div className="flex justify-between items-center">
-            <h2 className="text-4xl font-extrabold text-indigo-600 tracking-tight">Uploaded Recipes</h2>
-            {renderAddButton(() => console.log("Add Uploaded Recipe"))}
+        <div className="w-full lg:w-2/3 px-4">
+          {/* Favorite Recipes */}
+          <div className="mb-8">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-4xl font-extrabold text-indigo-600 tracking-tight">
+                Favorite Recipes
+              </h2>
+              {renderAddButton(() => console.log("Add Favorite Recipe"))}
+            </div>
+            <div
+              className="grid grid-cols-3 gap-6 overflow-auto"
+              style={{ maxHeight: "calc(100px * 6)" }}
+            >
+              {renderRecipeCards(userData.favoriteRecipes)}
+            </div>
           </div>
-          <div className="grid grid-cols-3 gap-6 mt-4 overflow-auto max-h-[30rem]">
-            {renderRecipeCards(userData.uploadedRecipes)}
-          </div>
-        </div>
 
-        {/* Meal Plans */}
-        <div>
-          <div className="flex justify-between items-center">
-            <h2 className="text-4xl font-extrabold text-indigo-600 tracking-tight">Meal Plans</h2>
-            {renderAddButton(
-              () => console.log("Add Meal Plan"),
-             "+"
-            )}
+          {/* Uploaded Recipes */}
+          <div className="mb-8">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-4xl font-extrabold text-indigo-600 tracking-tight">
+                Uploaded Recipes
+              </h2>
+              {renderAddButton(() => console.log("Add Uploaded Recipe"))}
+            </div>
+            <div
+              className="grid grid-cols-3 gap-6 overflow-auto"
+              style={{ maxHeight: "calc(100px * 6)" }}
+            >
+              {renderRecipeCards(userData.uploadedRecipes)}
+            </div>
           </div>
-          <div className="mt-4 overflow-auto max-h-[30rem]">
-            {userData.mealPlans.map((plan) => (
-              <div key={plan.id} className="py-2">
-                {plan.title}
-              </div>
-            ))}
+
+          {/* Meal Plans Section */}
+          <div className="mb-8">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-4xl font-extrabold text-indigo-600 tracking-tight">
+                Meal Plans
+              </h2>
+              {renderAddButton(() => console.log("Add Meal Plan"), "+")}
+            </div>
+            <div
+              className="overflow-auto"
+              style={{ maxHeight: "calc(100px * 6)" }}
+            >
+              {userData.mealPlans.map((plan) => (
+                <div key={plan.id} className="py-2">
+                  {plan.title}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-
     </div>
   );
 }
-
-
-
-
-
