@@ -9,11 +9,13 @@ import PlanMeal from "./pages/plan/Plan";
 import Share from "./pages/share/Share";
 import MyYummy from "./pages/profile/MyYummy";
 import Footer from "./components/Footer";
+import { ShoppingListProvider } from './pages/shopping/ShoppingListContext'; // Update the path accordingly
 
 
 function App() {
   return (
     <Router>
+      <ShoppingListProvider>
       <div>
         <NavBar />
         <div className="font-serif">
@@ -29,6 +31,7 @@ function App() {
         </div>
         <Footer />
       </div>
+        </ShoppingListProvider>
     </Router>
   );
 }

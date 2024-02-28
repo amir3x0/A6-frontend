@@ -17,6 +17,8 @@ import garlicBread from "../pages/plan/plan_img/Garlic-Bread.jpg"; // Assuming y
 import grilledChicken from "../pages/plan/plan_img/Grilled-Chicken.jpg"; // Assuming you're re-importing for illustration
 import chocolateMousse from "../pages/plan/plan_img/Chocolate-Mousse.jpg";
 import PlanBg from "../pages/plan/plan_img/planBg.jpg";
+import { useNavigate } from 'react-router-dom';
+import { useShoppingList } from '../pages/shopping/ShoppingListContext'; // Adjust the path as necessary
 
 const images = [
   capreseSalad,
@@ -374,53 +376,52 @@ const recipesData = [
 ];
 
 const PlanSection = () => {
-  const [expandedRecipeId, setExpandedRecipeId] = useState(null);
-  const [selectedRecipes, setSelectedRecipes] = useState([]);
-  const [shoppingList, setShoppingList] = useState([]);
-
-  const handleRecipeClick = (id) =>
-    setExpandedRecipeId(expandedRecipeId === id ? null : id);
-
-  const handleSelectRecipe = (recipe) => {
-    setSelectedRecipes((prevSelected) => {
-      const isAlreadySelected = prevSelected.some(
-        (item) => item.id === recipe.id
-      );
-      return isAlreadySelected
-        ? prevSelected.filter((item) => item.id !== recipe.id)
-        : [...prevSelected, recipe];
-    });
-  };
-
-  useEffect(() => {
-    const newShoppingList = selectedRecipes
-      .flatMap((recipe) => recipe.ingredients)
-      .reduce((acc, { name, quantity, unit }) => {
-        const key = `${name} (${unit})`;
-        acc[key] = (acc[key] || 0) + parseFloat(quantity);
-        return acc;
-      }, {});
-
-    // Convert aggregated object to array for rendering
-    setShoppingList(
-      Object.entries(newShoppingList).map(([name, quantity]) => ({
-        name: name.split(" (")[0], // Split to get name without unit
+    const [expandedRecipeId, setExpandedRecipeId] = useState(null);
+    const [selectedRecipes, setSelectedRecipes] = useState([]);
+    const navigate = useNavigate();
+    const [shoppingList, setShoppingListState] = useState([]); // Renamed to avoid conflict
+    const { setShoppingList: setShoppingListContext } = useShoppingList(); // Destructure and rename
+  
+    const handleRecipeClick = (id) =>
+      setExpandedRecipeId(expandedRecipeId === id ? null : id);
+  
+    const handleSelectRecipe = (recipe) => {
+      setSelectedRecipes((prevSelected) => {
+        const isAlreadySelected = prevSelected.some(
+          (item) => item.id === recipe.id
+        );
+        if (isAlreadySelected) {
+          return prevSelected.filter((item) => item.id !== recipe.id);
+        } else {
+          return [...prevSelected, recipe];
+        }
+      });
+    };
+  
+    useEffect(() => {
+      const newShoppingList = selectedRecipes
+        .flatMap((recipe) => recipe.ingredients)
+        .reduce((acc, { name, quantity, unit }) => {
+          const key = `${name} (${unit})`;
+          acc[key] = (acc[key] || 0) + parseFloat(quantity);
+          return acc;
+        }, {});
+      setShoppingListState(Object.entries(newShoppingList).map(([name, quantity]) => ({
+        name: name.split(" (")[0],
         quantity,
-        unit: name.split("(")[1].slice(0, -1), // Extract unit from name
-      }))
-    );
-  }, [selectedRecipes]);
-
-  const makeList = () => {
-    // Implement functionality for "Make List" button if needed
-    // For example, console.log the shopping list or perform another action
-    console.log(shoppingList);
-  };
-
-  const handleAddRecipe = (category) => {
-    // Placeholder function for adding a recipe
-    console.log(`Add recipe to ${category}`);
-  };
+        unit: name.split("(")[1].slice(0, -1),
+      })));
+    }, [selectedRecipes]);
+  
+    const makeList = () => {
+      setShoppingListContext(shoppingList); // Now correctly refers to the context setter
+      navigate('/Shopping');
+    };
+  
+    const handleAddRecipe = (category) => {
+      console.log(`Add recipe to ${category}`);
+    };
+  
 
 
   return (
