@@ -1,32 +1,37 @@
 import React, { useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-import { Link } from "react-router-dom";
-import { images } from "../constants/index.js";
+import { Link, useLocation } from "react-router-dom";
 
 const navItemsInfo = [
   { name: "Home", path: "/" },
-  { name: "Recipes", path: "/recipes" },
+  { name: "Recipes", path: "/Recipes" },
   { name: "Plan Meal", path: "/Plan" },
-  { name: "Share", path: "/share" },
-  { name: "Shopping", path: "/shopping" },
+  { name: "Share", path: "/Share" },
+  { name: "Shopping", path: "/Shopping" },
   { name: "MyYummy", path: "/myyummy" },
 ];
 
-const NavItem = ({ item, onItemClick }) => {
+const NavItem = ({ item, onItemClick, isActive }) => {
   return (
     <li className="relative group">
-      <Link to={item.path} className="px-4 py-2" onClick={onItemClick}>
+      <Link
+        to={item.path}
+        className={`px-4 py-2 font-bold text-lg ${isActive ? 'text-red-800' : 'text-black'}`} // Use backticks here
+        onClick={onItemClick}
+      >
         {item.name}
       </Link>
-      <span className="cursor-pointer text-blue-500 absolute transition-all duration-500 font-bold right-0 top-0 group-hover:right-[90%] opacity-0 group-hover:opacity-100">
+      <span className="cursor-pointer text-blue-500 absolute transition-all duration-500 right-0 top-0 group-hover:right-[90%] opacity-0 group-hover:opacity-100">
         /
       </span>
     </li>
   );
 };
 
+
 const NavBar = () => {
   const [navIsVisible, setNavIsVisible] = useState(false);
+  const location = useLocation();
 
   const navVisibilityHandler = () => {
     setNavIsVisible((curState) => {
@@ -35,11 +40,14 @@ const NavBar = () => {
   };
 
   return (
-    <section className="shadow-lg sticky top-0 left-0 right-0 z-50 bg-white">
+    <section className="shadow-lg sticky top-0 left-0 right-0 z-50 bg-white mb-10">
       <header className="container mx-auto px-5 flex justify-between py-4 items-center">
-        <span to="/">
-          <img className="w-16" src={images.yummylogo} alt="logo" />
-        </span>
+        <div className="text-2xl font-bold text-red-800">
+          <span>Yu</span>
+          <span className="text-black">mm</span>
+          <span>y</span>
+        </div>
+
         <div className="lg:hidden z-50">
           {navIsVisible ? (
             <AiOutlineClose
@@ -61,6 +69,7 @@ const NavBar = () => {
                 key={item.name}
                 item={item}
                 onItemClick={navVisibilityHandler}
+                isActive= {location.pathname === item.path || (location.pathname === '/A6' && item.name === 'Home')}
               />
             ))}
           </ul>

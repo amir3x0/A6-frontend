@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import NavBar from "./components/Navbar";
 import Recipes from "./pages/Recipes";
 import PlanMeal from "./pages/Plan";
-import Share from "./pages/Share";
+import Share from "./pages/share/Share";
 import MyYummy from "./pages/profile/MyYummy";
 import Footer from "./components/Footer";
 
@@ -16,13 +16,14 @@ function App() {
     <Router>
       <div>
         <NavBar />
-        <div className="container main">
+        <div className="font-serif">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/A6" element={<Home />} />
             <Route path="/Recipes" element={<Recipes />} />
             <Route path="/Plan" element={<PlanMeal />} />
             <Route path="/Share" element={<Share />} />
-            <Route path="/shopping/Shopping" element={<Shopping />} />
+            <Route path="/Shopping" element={<Shopping />} />
             <Route path="/MyYummy" element={<MyYummy />} />
           </Routes>
         </div>

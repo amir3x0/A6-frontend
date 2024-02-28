@@ -17,7 +17,7 @@ const PlanSection = () => {
 
     return (
         <div className="plansection flex flex-col items-center">
-            <div className='image-container relative max-h-96 overflow-hidden'>
+            <div className='image-container relative max-h-96 overflow-hidden my-10'>
                 <img className='cus_img w-full h-auto' src={images.planBg} alt="" />
                 <div className='overlay absolute bottom-0 left-0 bg-gray-800 bg-opacity-55 p-5 w-full'>
                     <h1 className="text-white text-4xl font-serif">Plan Your Meal</h1>
@@ -83,7 +83,9 @@ const PlanSection = () => {
                             </tbody>
                         </table>
                     </div>
-                    <button className="create-list-button bg-green-500 text-white border-none px-4 py-2 rounded transition-colors duration-300 hover:bg-green-600">Create Shopping List</button>
+                    <div className="flex justify-center">
+                        <button className="create-list-button bg-green-500 text-white border-none px-4 py-2 my-3 rounded transition-colors duration-300 hover:bg-green-600">Create Shopping List</button>
+                    </div>
                 </div>
             </div>
         </div>

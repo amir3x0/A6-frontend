@@ -1,12 +1,13 @@
 import React from 'react'
 
 
-const Shopping = () => {
+function Shopping() {
+  document.title = "Shopping";
   return (
-      <section>
-        <h1>Shopping</h1>
-      </section>
-  )
+      <div>
+        Shopping
+      </div>
+  );
 }
 
-export default Shopping
+export default Shopping;

@@ -4,7 +4,7 @@ import JoinUs from "./container/JoinUs";
 
 const Home = () => {
   return (
-    <div>
+    <div className="mx-auto flex flex-col items-center justify-center">
       <Welcome />
       <JoinUs />
     </div>

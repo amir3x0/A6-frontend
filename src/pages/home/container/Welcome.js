@@ -13,31 +13,46 @@ import snailsImage from '../home_img/snails.png';
 function Welcome() {
   document.title = "Home";
 
-  const images = [pastaImage, hamburgerImage, healthyImage, hungryImage, shakshukaImage, toastImage, hummusImage, shrimpImage, snailsImage];
+  const images = [
+    pastaImage, hamburgerImage, healthyImage,
+    hungryImage, shakshukaImage, toastImage,
+    hummusImage, shrimpImage, snailsImage
+  ];
+
+  // Calculate animation delay based on the specified order
+  const getAnimationDelay = (index) => {
+    const sequence = [0, .2, .4, .2, .4, .6, .4, .6, .8]; 
+    return sequence[index] * 0.5; 
+  };
 
   return (
-    <div className="bg-white p-10 text-gray-700"> 
-      <div className="flex flex-col md:w-fit md:flex-row">
-
-        <div className="md:w-1/2 font-bold pt-16 pr-7">
-          <h1 className="text-5xl text-red-800 mb-6 pt-10">Welcome!</h1>
-          <p className="text-2xl mb-4">
-            You can search and explore many kind of recipes here including the
-            required ingredients and their nutritional properties. Have fun
-            exploring. You can select any of the desire tabs to start.
-          </p>
-          <p className="text-2xl mb-4">Popular Recipe: Homemade Shakshuka for 5 people.</p>
-          <p className="text-xl mb-4 pb-10">This website was created by Amir, Dana, Lital, and Michael.</p>
-          <button className="bg-red-800 text-white text-xl rounded-lg px-6 py-3 font-semibold hover:bg-orange-600 transition duration-300">
+    <div className="bg-white-500 shadow-lg flex items-center max-w-6xl mx-auto px-10 text-gray-700 font-serif p-10">
+      
+      {/* Info Section */}
+      <div className="text-2xl md:w-1/2 font-bold pr-7 animate-fadeIn text-center md:text-left">
+        <h1 className="flex justify-center text-5xl text-red-800 mb-6 pt-10">Welcome!</h1>
+        <p className="my-14">
+          You can search and explore many kind of recipes here including the
+          required ingredients and their nutritional properties. Have fun
+          exploring. You can select any of the desire tabs to start.
+        </p>
+        <p className="mb-16"><span className="text-red-800">Popular Recipe:</span> Homemade Shakshuka for 5 people.</p>
+        <p className="mb-4 pb-10">This website was created by Amir, Dana, Lital, and Michael.</p>
+        
+        <div className="flex justify-center">
+          <button className="bg-red-800 text-white text-xl rounded-lg hover:-translate-y-1 px-6 py-3 font-semibold hover:bg-orange-600 transition duration-300">
             Explore Now
           </button>
         </div>
-        
-        <div className="md:w-1/2 grid grid-cols-3 gap-4 mt-6 md:mt-0">
-          {images.map((src, index) => (
-            <img key={index} src={src} alt={`Recipe ${index}`} className="w-full h-32 md:h-48 object-cover rounded-lg" />
-          ))}
-        </div>
+      </div>
+      
+      {/* Images Section */}
+      <div className="md:w-1/2 grid grid-cols-3 gap-4 mt-10">
+        {images.map((src, index) => (
+          <img key={index} src={src} alt={`Recipe ${index}`}
+                className={`w-full h-16 md:h-44 object-cover rounded-3xl animate-fadeIn opacity-0`}
+                style={{ animationDelay: `${getAnimationDelay(index)}s` }} />
+        ))}
       </div>
     </div>
   );
