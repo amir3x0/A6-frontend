@@ -1,5 +1,13 @@
 import React from 'react';
 
+// Enum for recipe categories
+const CategoryLabels = {
+  appetizers: 'Appetizers',
+  starters: 'Starters',
+  mainDish: 'Main Dish',
+  dessert: 'Dessert',
+};
+
 const RecipeCard = ({ recipe, isExpanded, onClick }) => {
   return (
     <div
@@ -11,7 +19,7 @@ const RecipeCard = ({ recipe, isExpanded, onClick }) => {
         alt={recipe.title}
         className="w-full h-48 object-cover"
       />
-      <div className="p-4">
+      <div className={`p-4 ${isExpanded ? "px-8 py-6" : "px-4 py-4"}`}>
         <p className="text-lg font-semibold text-gray-800">{recipe.title}</p>
         {isExpanded && (
           <>
@@ -23,8 +31,15 @@ const RecipeCard = ({ recipe, isExpanded, onClick }) => {
                 ))}
               </ul>
               <p className="text-sm mt-2">Difficulty: {recipe.difficulty}</p>
-              <p className="text-sm">Rank: {'★'.repeat(recipe.rank)}{'☆'.repeat(5 - recipe.rank)}</p>
-              <p className="text-sm">Categories: {recipe.categories.join(', ')}</p>
+              <p className="text-sm">Category: {CategoryLabels[recipe.category]}</p>
+              <div className="mt-2">
+                <p className="text-sm font-semibold">Ingredients:</p>
+                <ul className="list-disc list-inside">
+                  {recipe.ingredients.map((ingredient, index) => (
+                    <li key={index} className="text-sm text-gray-700">{`${ingredient.name} - ${ingredient.quantity}`}</li>
+                  ))}
+                </ul>
+              </div>
               <div className="mt-2">
                 <p className="text-sm">Calories: {recipe.calories.total} kcal</p>
                 <p className="text-sm">Protein: {recipe.calories.protein}g</p>

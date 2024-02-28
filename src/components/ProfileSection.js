@@ -35,20 +35,31 @@ const userData = {
       description: "A classic Italian pasta dish...",
       instructions: ["Step 1", "Step 2"],
       difficulty: "Medium",
-      rank: 4,
-      categories: ["Main Dishes", "Pasta"],
+      category: "mainDish", // Adjusted to match the enum
+      ingredients: [ // Added based on the new structure
+        { name: "Spaghetti", quantity: "400g" },
+        { name: "Pancetta", quantity: "150g" },
+        { name: "Eggs", quantity: "3" },
+        { name: "Parmesan Cheese", quantity: "75g" },
+      ],
       picture: images.spaghetti_carbonara,
       calories: { total: 600, protein: "20g", carbs: "80g", fat: "22g" },
     },
     {
       id: 2,
       title: "Vegetarian Chili",
-      description:
-        "A hearty, filling chili that's packed with fiber and protein.",
+      description: "A hearty, filling chili that's packed with fiber and protein.",
       instructions: ["Step 1", "Step 2", "Step 3"],
       difficulty: "Easy",
-      rank: 5,
-      categories: ["Main Dishes", "Vegetarian"],
+      category: "mainDish", // Adjusted
+      ingredients: [
+        { name: "Kidney beans", quantity: "1 can" },
+        { name: "Chickpeas", quantity: "1 can" },
+        { name: "Tomatoes", quantity: "2 cans" },
+        { name: "Bell peppers", quantity: "2" },
+        { name: "Onion", quantity: "1" },
+        { name: "Chili powder", quantity: "2 tbsp" },
+      ],
       picture: images.Vegetarian_Chili,
       calories: { total: 450, protein: "15g", carbs: "65g", fat: "10g" },
     },
@@ -58,8 +69,13 @@ const userData = {
       description: "Flavorful salmon with a lemon garlic butter sauce.",
       instructions: ["Step 1", "Step 2"],
       difficulty: "Easy",
-      rank: 4,
-      categories: ["Main Dishes", "Seafood"],
+      category: "mainDish", // Adjusted
+      ingredients: [
+        { name: "Salmon fillets", quantity: "4" },
+        { name: "Lemon", quantity: "1" },
+        { name: "Garlic", quantity: "3 cloves" },
+        { name: "Butter", quantity: "50g" },
+      ],
       picture: images.lemon_salmon,
       calories: { total: 500, protein: "45g", carbs: "5g", fat: "35g" },
     },
@@ -69,8 +85,14 @@ const userData = {
       description: "A delicious creamy and richly spiced Indian chicken dish.",
       instructions: ["Step 1", "Step 2", "Step 3", "Step 4"],
       difficulty: "Medium",
-      rank: 5,
-      categories: ["Main Dishes", "Indian"],
+      category: "mainDish", // Adjusted
+      ingredients: [
+        { name: "Chicken breast", quantity: "500g" },
+        { name: "Yogurt", quantity: "200ml" },
+        { name: "Tikka masala paste", quantity: "100g" },
+        { name: "Tomatoes", quantity: "400g" },
+        { name: "Cream", quantity: "100ml" },
+      ],
       picture: images.chicken_tikka,
       calories: { total: 700, protein: "50g", carbs: "50g", fat: "30g" },
     },
@@ -80,50 +102,54 @@ const userData = {
     {
       id: 5,
       title: "Quinoa Salad with Avocado",
-      description:
-        "A refreshing and nutritious salad perfect for a quick lunch.",
-      instructions: [
-        "Step 1: Rinse and cook the quinoa.",
-        "Step 2: Chop the vegetables and avocado.",
-        "Step 3: Mix all ingredients with dressing.",
-      ],
+      description: "A refreshing and nutritious salad perfect for a quick lunch.",
+      instructions: ["Step 1: Rinse and cook the quinoa.", "Step 2: Chop the vegetables and avocado.", "Step 3: Mix all ingredients with dressing."],
       difficulty: "Easy",
-      rank: 5,
-      categories: ["Salads", "Vegetarian"],
-      picture: images.Quinoa_Salad_with_Avocado, // Ensure this key exists in your `images` object
+      category: "appetizers", // Adjusted
+      ingredients: [
+        { name: "Quinoa", quantity: "200g" },
+        { name: "Avocado", quantity: "1" },
+        { name: "Cherry tomatoes", quantity: "100g" },
+        { name: "Cucumber", quantity: "1" },
+        { name: "Lemon juice", quantity: "2 tbsp" },
+        { name: "Olive oil", quantity: "3 tbsp" },
+      ],
+      picture: images.Quinoa_Salad_with_Avocado,
       calories: { total: 350, protein: "8g", carbs: "45g", fat: "18g" },
     },
-
     {
       id: 6,
       title: "Beef Stir-Fry",
-      description:
-        "A savory and quick beef stir-fry with vegetables, perfect for a weeknight dinner.",
-      instructions: [
-        "Step 1: Slice beef and vegetables.",
-        "Step 2: Stir-fry beef until browned.",
-        "Step 3: Add vegetables and sauce, then cook until tender.",
-      ],
+      description: "A savory and quick beef stir-fry with vegetables, perfect for a weeknight dinner.",
+      instructions: ["Step 1: Slice beef and vegetables.", "Step 2: Stir-fry beef until browned.", "Step 3: Add vegetables and sauce, then cook until tender."],
       difficulty: "Medium",
-      rank: 4,
-      categories: ["Main Dishes", "Beef"],
-      picture: images.Beef_Stir_Fry, // Ensure this key exists in your `images` object
+      category: "mainDish", // Adjusted
+      ingredients: [
+        { name: "Beef steak", quantity: "400g" },
+        { name: "Broccoli", quantity: "1 head" },
+        { name: "Carrot", quantity: "2" },
+        { name: "Soy sauce", quantity: "50ml" },
+        { name: "Ginger", quantity: "2 tsp" },
+      ],
+      picture: images.Beef_Stir_Fry,
       calories: { total: 500, protein: "30g", carbs: "35g", fat: "22g" },
     },
-
     {
       id: 7,
       title: "Vegan Chocolate Cake",
       description: "A moist and rich chocolate cake that's completely vegan.",
-      instructions: [
-        "Step 1: Mix dry ingredients.",
-        "Step 2: Add wet ingredients and combine.",
-        "Step 3: Bake until a toothpick comes out clean.",
-      ],
+      instructions: ["Step 1: Mix dry ingredients.", "Step 2: Add wet ingredients and combine.", "Step 3: Bake until a toothpick comes out clean."],
       difficulty: "Medium",
-      rank: 5,
-      categories: ["Desserts", "Vegan"],
-      picture: images.Vegan_Chocolate_Cake, // Ensure this key exists in your `images` object
+      category: "dessert", // Adjusted
+      ingredients: [
+        { name: "Flour", quantity: "250g" },
+        { name: "Cocoa powder", quantity: "75g" },
+        { name: "Baking soda", quantity: "2 tsp" },
+        { name: "Sugar", quantity: "200g" },
+        { name: "Vegetable oil", quantity: "100ml" },
+        { name: "Vinegar", quantity: "1 tbsp" },
+      ],
+      picture: images.Vegan_Chocolate_Cake,
       calories: { total: 450, protein: "6g", carbs: "60g", fat: "20g" },
     },
   ],
@@ -134,6 +160,7 @@ const userData = {
     // Add more meal plans as needed
   ],
 };
+
 
 export default function MyYummy() {
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
