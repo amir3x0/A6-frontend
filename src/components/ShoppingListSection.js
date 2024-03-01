@@ -16,7 +16,7 @@ import applePie from "../pages/plan/plan_img/Apple-Pie.jpg";
 import garlicBread from "../pages/plan/plan_img/Garlic-Bread.jpg"; // Assuming you're re-importing for illustration
 import grilledChicken from "../pages/plan/plan_img/Grilled-Chicken.jpg"; // Assuming you're re-importing for illustration
 import chocolateMousse from "../pages/plan/plan_img/Chocolate-Mousse.jpg";
-import PlanBg from "../pages/plan/plan_img/planBg.jpg";
+import PlanBg from "../pages/shopping/shopping_img/ShoppingCart.jpg";
 import { useNavigate } from "react-router-dom";
 import { useShoppingList } from "../pages/shopping/ShoppingListContext"; // Adjust the path as necessary
 
@@ -399,9 +399,20 @@ const PlanSection = () => {
   };
 
   useEffect(() => {
-    // Update to only include the titles of selected recipes
-    const titlesList = selectedRecipes.map((recipe) => recipe.title);
-    setShoppingListState(titlesList);
+    const newShoppingList = selectedRecipes
+      .flatMap((recipe) => recipe.ingredients)
+      .reduce((acc, { name, quantity, unit }) => {
+        const key = `${name} (${unit})`;
+        acc[key] = (acc[key] || 0) + parseFloat(quantity);
+        return acc;
+      }, {});
+    setShoppingListState(
+      Object.entries(newShoppingList).map(([name, quantity]) => ({
+        name: name.split(" (")[0],
+        quantity,
+        unit: name.split("(")[1].slice(0, -1),
+      }))
+    );
   }, [selectedRecipes]);
 
   const makeList = () => {
@@ -420,7 +431,7 @@ const PlanSection = () => {
           <img className="w-full" src={PlanBg} alt="Plan Your Meal" />
           <div className="overlay absolute bottom-0 left-0 right-0 bg-gray-800 bg-opacity-55 p-5">
             <h1 className="text-white text-4xl font-serif mb-5">
-              Plan A Meal
+              Create Shopping List
             </h1>
             {/* Added padding below title */}
           </div>
@@ -462,19 +473,32 @@ const PlanSection = () => {
 
         <div className="w-full lg:w-1/4 lg:pl-4">
           <h2 className="text-2xl font-bold text-green-800 uppercase mb-2">
-            Selected Recipes
+            Shopping List
           </h2>
           <div className="border border-gray-300 rounded-md p-4">
-            <ul className="list-disc pl-5">
-              {shoppingList.map((title, index) => (
-                <li key={index}>{title}</li>
-              ))}
-            </ul>
+            <table className="w-full mb-4">
+              <thead>
+                <tr>
+                  <th className="border px-4 py-2">Ingredient</th>
+                  <th className="border px-4 py-2">Quantity</th>
+                  <th className="border px-4 py-2">Unit</th>
+                </tr>
+              </thead>
+              <tbody>
+                {shoppingList.map(({ name, quantity, unit }, index) => (
+                  <tr key={index}>
+                    <td className="border px-4 py-2">{name}</td>
+                    <td className="border px-4 py-2">{quantity}</td>
+                    <td className="border px-4 py-2">{unit}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
             <button
               onClick={makeList}
               className="bg-green-500 text-white px-4 py-2 rounded mt-4 hover:bg-green-600 transition-colors duration-300 w-full"
             >
-              Create Meal
+              Make List
             </button>
           </div>
         </div>
