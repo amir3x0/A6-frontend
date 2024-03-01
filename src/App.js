@@ -9,7 +9,11 @@ import PlanMeal from "./pages/plan/Plan";
 import Share from "./pages/share/Share";
 import MyYummy from "./pages/profile/MyYummy";
 import Footer from "./components/Footer";
-import { ShoppingListProvider } from './pages/shopping/ShoppingListContext'; // Update the path accordingly
+import { ShoppingListProvider } from './pages/shopping/ShoppingListContext'; 
+import React from 'react';
+// import { fetchMessageFromBackend } from './services/BackendService'; 
+import FetchMessageButton from './components/FetchMessageButton';
+// import RecipeDetails from './services/RecipeDetails';
 
 
 function App() {
@@ -18,6 +22,7 @@ function App() {
       <ShoppingListProvider>
       <div>
         <NavBar />
+        <FetchMessageButton /> 
         <div className="font-serif">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -27,6 +32,7 @@ function App() {
             <Route path="/Share" element={<Share />} />
             <Route path="/Shopping" element={<Shopping />} />
             <Route path="/MyYummy" element={<MyYummy />} />
+            {/* <Route path="/recipe/:id" element={<RecipeDetails id="65e0fbc4c9940ddd3655e0b9" />} /> */}
           </Routes>
         </div>
         <Footer />

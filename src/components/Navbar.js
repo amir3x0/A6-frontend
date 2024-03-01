@@ -73,7 +73,6 @@ const NavBar = () => {
               />
             ))}
           </ul>
-
         </div>
       </header>
     </section>
