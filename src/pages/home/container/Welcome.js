@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 
 import pastaImage from '../home_img/pasta.png';
 import hamburgerImage from '../home_img/hamburger.png';
@@ -12,6 +13,7 @@ import snailsImage from '../home_img/snails.png';
 
 function Welcome() {
   document.title = "Home";
+  const navigate = useNavigate();
 
   const images = [
     pastaImage, hamburgerImage, healthyImage,
@@ -24,6 +26,8 @@ function Welcome() {
     const sequence = [0, .2, .4, .2, .4, .6, .4, .6, .8]; 
     return sequence[index] * 0.5; 
   };
+
+  const gotoRecipes = () => { navigate("/Recipes")}
 
   return (
     <div className="bg-white-500 shadow-lg flex items-center max-w-6xl mx-auto px-10 text-gray-700 font-serif p-10">
@@ -40,7 +44,8 @@ function Welcome() {
         <p className="mb-4 pb-10">This website was created by Amir, Dana, Lital, and Michael.</p>
         
         <div className="flex justify-center">
-          <button className="bg-red-800 text-white text-xl rounded-lg hover:-translate-y-1 px-6 py-3 font-semibold hover:bg-orange-600 transition duration-300">
+          <button className="bg-red-800 text-white text-xl rounded-lg hover:-translate-y-1 px-6 py-3 font-semibold hover:bg-orange-600 transition duration-300"
+                  onClick={gotoRecipes}>
             Explore Now
           </button>
         </div>
