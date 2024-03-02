@@ -32,12 +32,12 @@ const RecipeCard = ({ recipe, isExpanded, onClick, onSelect }) => {
             <p className="text-gray-600 mt-2">{recipe.description}</p>
             <div className="mt-4">
               <ul className="list-disc list-inside">
+                <p className="text-sm font-semibold">Steps:</p>
                 {recipe.instructions.map((step, index) => (
                   <li key={index} className="text-sm text-gray-700">{step}</li>
                 ))}
               </ul>
-              <p className="text-sm mt-2">Difficulty: {recipe.difficulty}</p>
-              <p className="text-sm">Category: {CategoryLabels[recipe.category]}</p>
+              <p className="text-sm mt-2"><span className="font-semibold">Difficulty:</span> {recipe.difficulty}</p>
               <div className="mt-2">
                 <p className="text-sm font-semibold">Ingredients:</p>
                 <ul className="list-disc list-inside">
@@ -47,10 +47,10 @@ const RecipeCard = ({ recipe, isExpanded, onClick, onSelect }) => {
                 </ul>
               </div>
               <div className="mt-2">
-                <p className="text-sm">Calories: {recipe.calories.total} kcal</p>
-                <p className="text-sm">Protein: {recipe.calories.protein}g</p>
-                <p className="text-sm">Carbs: {recipe.calories.carbs}g</p>
-                <p className="text-sm">Fat: {recipe.calories.fat}g</p>
+                <p className="text-sm"><span className="font-semibold">Calories:</span> {recipe.calories.total} kcal</p>
+                <p className="text-sm"><span className="font-semibold">Protein:</span> {recipe.calories.protein}g</p>
+                <p className="text-sm"><span className="font-semibold">Carbs:</span> {recipe.calories.carbs}g</p>
+                <p className="text-sm"><span className="font-semibold">Fat:</span> {recipe.calories.fat}g</p>
               </div>
             </div>
             {/* Add a button to handle recipe selection */}

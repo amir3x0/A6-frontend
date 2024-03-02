@@ -16,9 +16,11 @@ import applePie from "../pages/plan/plan_img/Apple-Pie.jpg";
 import garlicBread from "../pages/plan/plan_img/Garlic-Bread.jpg"; // Assuming you're re-importing for illustration
 import grilledChicken from "../pages/plan/plan_img/Grilled-Chicken.jpg"; // Assuming you're re-importing for illustration
 import chocolateMousse from "../pages/plan/plan_img/Chocolate-Mousse.jpg";
+
 import PlanBg from "../pages/shopping/shopping_img/ShoppingCart.jpg";
 import { useNavigate } from "react-router-dom";
-import { useShoppingList } from "../pages/shopping/ShoppingListContext"; // Adjust the path as necessary
+import { fetchRecipes } from "../services/BackendService";
+// import { useShoppingList } from "../pages/shopping/ShoppingListContext";
 
 const images = [
   capreseSalad,
@@ -378,9 +380,11 @@ const recipesData = [
 const PlanSection = () => {
   const [expandedRecipeId, setExpandedRecipeId] = useState(null);
   const [selectedRecipes, setSelectedRecipes] = useState([]);
+  const [shoppingList, setShoppingListState] = useState([]);
+  const [recipes, setRecipes] = useState([]);
   const navigate = useNavigate();
-  const [shoppingList, setShoppingListState] = useState([]); // Renamed to avoid conflict
-  const { setShoppingList: setShoppingListContext } = useShoppingList(); // Destructure and rename
+  const [loadingStatus, setLoadingStatus] = useState("loading");
+  // const { setShoppingList: setShoppingListContext } = useShoppingList(); // Destructure and rename
 
   const handleRecipeClick = (id) =>
     setExpandedRecipeId(expandedRecipeId === id ? null : id);
@@ -398,6 +402,22 @@ const PlanSection = () => {
     });
   };
 
+  // Fetching all the recipes
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchRecipes();
+        setRecipes(data);
+        setLoadingStatus("True");
+      } catch (error) {
+        setLoadingStatus("Error");
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Logic For Selected Recipes
   useEffect(() => {
     const newShoppingList = selectedRecipes
       .flatMap((recipe) => recipe.ingredients)
@@ -416,7 +436,7 @@ const PlanSection = () => {
   }, [selectedRecipes]);
 
   const makeList = () => {
-    setShoppingListContext(shoppingList); // Now correctly refers to the context setter
+    // setShoppingListContext(shoppingList); // Now correctly refers to the context setter
     navigate("/Shopping");
   };
 
@@ -441,34 +461,38 @@ const PlanSection = () => {
       <div className="flex flex-wrap lg:flex-nowrap justify-between">
         {/* Categories Container */}
         <div className="w-full lg:w-3/4 pr-4 mb-10 lg:mb-0">
-          {["appetizers", "starters", "mainDish", "dessert"].map((category) => (
-            <div key={category} className="mb-10">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-green-800 uppercase">
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
-                </h2>
-                <button
-                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors duration-300"
-                  onClick={() => handleAddRecipe(category)}
-                >
-                  +
-                </button>
+          {["appetizers", "starters", "main dish", "dessert"].map(
+            (category) => (
+              <div key={category} className="mb-10">
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-2xl font-bold text-green-800 uppercase">
+                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                  </h2>
+                  <button
+                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors duration-300"
+                    onClick={() => handleAddRecipe(category)}
+                  >
+                    +
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {recipes
+                    .filter(
+                      (recipe) => recipe.category.toLowerCase() === category
+                    )
+                    .map((recipe, index) => (
+                      <RecipeCard
+                        key={recipe._id}
+                        recipe={recipe}
+                        isExpanded={expandedRecipeId === recipe._id}
+                        onClick={() => handleRecipeClick(recipe._id)}
+                        onSelect={() => handleSelectRecipe(recipe)}
+                      />
+                    ))}
+                </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {recipesData
-                  .filter((recipe) => recipe.category === category)
-                  .map((recipe) => (
-                    <RecipeCard
-                      key={recipe.id}
-                      recipe={recipe}
-                      isExpanded={expandedRecipeId === recipe.id}
-                      onClick={() => handleRecipeClick(recipe.id)}
-                      onSelect={() => handleSelectRecipe(recipe)}
-                    />
-                  ))}
-              </div>
-            </div>
-          ))}
+            )
+          )}
         </div>
 
         <div className="w-full lg:w-1/4 lg:pl-4">
