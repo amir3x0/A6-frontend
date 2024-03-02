@@ -9,13 +9,13 @@ import PlanMeal from "./pages/plan/Plan";
 import Share from "./pages/share/Share";
 import MyYummy from "./pages/profile/MyYummy";
 import Footer from "./components/Footer";
-import { ShoppingListProvider } from './pages/shopping/ShoppingListContext'; // Update the path accordingly
+import SignInPage from "./components/SignInPage";
+import React from 'react';
 
 
 function App() {
   return (
     <Router>
-      <ShoppingListProvider>
       <div>
         <NavBar />
         <div className="font-serif">
@@ -27,11 +27,11 @@ function App() {
             <Route path="/Share" element={<Share />} />
             <Route path="/Shopping" element={<Shopping />} />
             <Route path="/MyYummy" element={<MyYummy />} />
+            <Route path="/SignIn" element={<SignInPage />} />
           </Routes>
         </div>
         <Footer />
       </div>
-        </ShoppingListProvider>
     </Router>
   );
 }

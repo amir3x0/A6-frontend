@@ -1,33 +1,18 @@
 import React, { useState, useEffect } from "react";
-import RecipeCard from "./RecipeCard"; // Assuming RecipeCard.js is in the same directory
-import PlanBg from "../pages/plan/plan_img/planBg.jpg";
+import RecipeCard from "./RecipeCard";
+import PlanBg from "../pages/shopping/shopping_img/ShoppingCart.jpg";
 import { useNavigate } from "react-router-dom";
 import { fetchRecipes } from "../services/BackendService";
-
+// import { useShoppingList } from "../pages/shopping/ShoppingListContext";
 
 const PlanSection = () => {
   const [expandedRecipeId, setExpandedRecipeId] = useState(null);
   const [selectedRecipes, setSelectedRecipes] = useState([]);
-  const navigate = useNavigate();
-  const [shoppingList, setShoppingListState] = useState([]); // Renamed to avoid conflict
+  const [shoppingList, setShoppingListState] = useState([]);
   const [recipes, setRecipes] = useState([]);
+  const navigate = useNavigate();
   const [loadingStatus, setLoadingStatus] = useState("loading");
   // const { setShoppingList: setShoppingListContext } = useShoppingList(); // Destructure and rename
-
-  // Fetching all the recipes
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchRecipes();
-        setRecipes(data); 
-        setLoadingStatus("True");
-      } catch (error) {
-        setLoadingStatus("Error");
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const handleRecipeClick = (id) =>
     setExpandedRecipeId(expandedRecipeId === id ? null : id);
@@ -45,15 +30,42 @@ const PlanSection = () => {
     });
   };
 
+  // Fetching all the recipes
   useEffect(() => {
-    // Update to only include the titles of selected recipes
-    const titlesList = selectedRecipes.map((recipe) => recipe.title);
-    setShoppingListState(titlesList);
+    const fetchData = async () => {
+      try {
+        const data = await fetchRecipes();
+        setRecipes(data);
+        setLoadingStatus("True");
+      } catch (error) {
+        setLoadingStatus("Error");
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Logic For Selected Recipes
+  useEffect(() => {
+    const newShoppingList = selectedRecipes
+      .flatMap((recipe) => recipe.ingredients)
+      .reduce((acc, { name, quantity, unit }) => {
+        const key = `${name} (${unit})`;
+        acc[key] = (acc[key] || 0) + parseFloat(quantity);
+        return acc;
+      }, {});
+    setShoppingListState(
+      Object.entries(newShoppingList).map(([name, quantity]) => ({
+        name: name.split(" (")[0],
+        quantity,
+        unit: name.split("(")[1].slice(0, -1),
+      }))
+    );
   }, [selectedRecipes]);
 
   const makeList = () => {
-    //setShoppingListContext(shoppingList); // Now correctly refers to the context setter
-    navigate("/Plan");
+    // setShoppingListContext(shoppingList); // Now correctly refers to the context setter
+    navigate("/Shopping");
   };
 
   const handleAddRecipe = (category) => {
@@ -66,7 +78,9 @@ const PlanSection = () => {
         <div className="image-container relative overflow-hidden max-h-72">
           <img className="w-full" src={PlanBg} alt="Plan Your Meal" />
           <div className="overlay absolute bottom-0 left-0 right-0 bg-gray-800 bg-opacity-55 p-5">
-            <h1 className="text-white text-4xl font-serif mb-5">Plan A Meal</h1>
+            <h1 className="text-white text-4xl font-serif mb-5">
+              Create Shopping List
+            </h1>
             {/* Added padding below title */}
           </div>
         </div>
@@ -109,22 +123,34 @@ const PlanSection = () => {
           )}
         </div>
 
-        {/* Selected List Section */}
         <div className="w-full lg:w-1/4 lg:pl-4">
           <h2 className="text-2xl font-bold text-green-800 uppercase mb-2">
-            Selected Recipes
+            Shopping List
           </h2>
           <div className="border border-gray-300 rounded-md p-4">
-            <ul className="list-disc pl-5">
-              {shoppingList.map((title, index) => (
-                <li key={index}>{title}</li>
-              ))}
-            </ul>
+            <table className="w-full mb-4">
+              <thead>
+                <tr>
+                  <th className="border px-4 py-2">Ingredient</th>
+                  <th className="border px-4 py-2">Quantity</th>
+                  <th className="border px-4 py-2">Unit</th>
+                </tr>
+              </thead>
+              <tbody>
+                {shoppingList.map(({ name, quantity, unit }, index) => (
+                  <tr key={index}>
+                    <td className="border px-4 py-2">{name}</td>
+                    <td className="border px-4 py-2">{quantity}</td>
+                    <td className="border px-4 py-2">{unit}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
             <button
               onClick={makeList}
               className="bg-green-500 text-white px-4 py-2 rounded mt-4 hover:bg-green-600 transition-colors duration-300 w-full"
             >
-              Create Meal
+              Make List
             </button>
           </div>
         </div>
