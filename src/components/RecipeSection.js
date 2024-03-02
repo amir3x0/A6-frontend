@@ -1,6 +1,6 @@
+
 import React, { useState, useEffect } from "react";
 import RecipeCard from './RecipeCard'; // Make sure the path is correct
-
 
 const images = {
   Bruschetta: process.env.PUBLIC_URL + "/images/recipe_img/Bruschetta.jpg",
@@ -173,8 +173,9 @@ const categorizedRecipes = {
   ],
 };
 
-export default function RecipeSection() {
+const RecipeSection = () => {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredRecipes, setFilteredRecipes] = useState(categorizedRecipes);
 
@@ -184,28 +185,32 @@ export default function RecipeSection() {
       return;
     }
 
-    const newFiltered = Object.keys(categorizedRecipes).reduce((acc, category) => {
-      acc[category] = categorizedRecipes[category].filter((recipe) =>
-        recipe.name?.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      return acc;
-    }, {});
-    
+    const newFiltered = Object.keys(categorizedRecipes).reduce(
+      (acc, category) => {
+        acc[category] = categorizedRecipes[category].filter((recipe) =>
+          recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        return acc;
+      },
+      {}
+    );
 
     setFilteredRecipes(newFiltered);
   }, [searchTerm]);
 
   const handleRecipeClick = (recipe) => {
     setSelectedRecipe(selectedRecipe === recipe ? null : recipe);
+    // Set the category of the selected recipe
+    setSelectedCategory(recipe ? recipe.categories[0] : null);
   };
-
 
   document.title = "Our Recipes";
   const categoryColors = {
-    appetizers: "text-background-color: #FFB6C1; color: #000000;", // LightPink background with Black text
-    starters: "background-color: #ADD8E6; color: #000000;", // LightBlue background with Black text
-    mainDishes: "background-color: #90EE90; color: #000000;", // LightGreen background with Black text
-    desserts: "background-color: #FFFACD; color: #000000;", // LemonChiffon background with Black text
+    appetizers: "bg-green-300",
+    starters: "bg-blue-200",
+    mainDishes: "bg-yellow-200",
+    desserts: "bg-pink-200",
+    // Add more categories and colors as needed
   };
 
   return (
@@ -214,15 +219,14 @@ export default function RecipeSection() {
         <input
           type="text"
           placeholder="Search for recipes..."
-          className="w-full p-4 border border-gray-300 rounded-l-lg focus:ring-blue-500 focus:border-blue-500"
+          className="w-full p-4 border border-gray-300 rounded-l-lg focus:ring-blue-500 focus:border-blue-500 outline-none"
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <button
           type="submit"
           className="bg-blue-500 text-white px-6 py-4 rounded-r-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200"
           onClick={(e) => {
-            e.preventDefault(); // Prevent form submission if wrapped in a form
-            // Logic to handle search can be implemented here if needed
+            e.preventDefault();
           }}
         >
           Search
@@ -238,34 +242,13 @@ export default function RecipeSection() {
             {recipes.map((recipe, index) => (
               <div
                 key={index}
-                className="border rounded-lg overflow-hidden shadow-lg"
+                className={`p-4 rounded-lg shadow-md transition duration-300 transform hover:scale-105 ${selectedCategory === category && selectedRecipe === recipe ? categoryColors[category] : ''}`}
               >
-                <img
-                  src={recipe.image}
-                  alt={recipe.name}
-                  className="w-full h-48 object-cover"
+                <RecipeCard
+                  recipe={recipe}
+                  isExpanded={selectedRecipe && selectedRecipe.id === recipe.id}
+                  onClick={() => handleRecipeClick(recipe)}
                 />
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold">{recipe.name}</h3>
-                  {selectedRecipe && selectedRecipe.name === recipe.name && (
-                    <div className="mt-2">
-                      <h4 className="font-semibold">Ingredients:</h4>
-                      <ul className="list-disc ml-4">
-                        {recipe.ingredients.map((ingredient, index) => (
-                          <li key={index}>{ingredient}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  <button
-                    onClick={() => handleRecipeClick(recipe)}
-                    className="mt-4 bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200"
-                  >
-                    {selectedRecipe && selectedRecipe.name === recipe.name
-                      ? "Hide Ingredients"
-                      : "Show Ingredients"}
-                  </button>
-                </div>
               </div>
             ))}
           </div>
@@ -273,4 +256,5 @@ export default function RecipeSection() {
       ))}
     </div>
   );
-}
+};
+export default RecipeSection;
