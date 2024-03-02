@@ -33,19 +33,26 @@ export const registerNewUser = async (name, email, username, password) => {
 
 export const authenticateUser = async (username, password) => {
   try { 
-    await axios.post(`${API_URL}/users/login`, { username, password });
-    return true;
+    const response = await axios.post(`${API_URL}/users/login`, { username, password });
+    // Capture and return the access token from the response
+    return response.data.accessToken; // Assuming the server sends back an object with accessToken
   } catch (error) {
+    console.error('Error during authentication:', error.response?.data?.message || error.message);
     throw new Error("Failed to authenticate user.");
   }
 };
 
-// export const fetchRecipeById = async (id) => {
-//     try {
-//         const response = await axios.get(`${API_URL}${id}`);
-//         return response.data;
-//     } catch (error) {
-//         console.error('There was an error fetching the recipe:', error);
-//         throw new Error('Failed to fetch recipe from backend');
-//     }
-// };
+// In services/BackendService.js or a similar file
+export const fetchProtectedData = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/protected-route`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching protected data:', error);
+    throw new Error('Failed to fetch protected data');
+  }
+};

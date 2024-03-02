@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { authenticateUser } from "../services/BackendService";
 import { useNavigate } from "react-router-dom";
 
@@ -11,18 +11,26 @@ const SignInPage = ({ onSignIn }) => {
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent the default form submission
     try {
-      const result = await authenticateUser(username, password);
-      if(result) {
-        navigate("/MyYummy");
-        // localStorage.setItem("username"); //TODO communicate with ui
-      }
-      else { 
-        setErrorMessage("Not Found"); 
+      const accessToken = await authenticateUser(username, password);
+      if (accessToken) {
+        // Store the access token in localStorage or in memory
+        localStorage.setItem("accessToken", accessToken); // Storing token in localStorage
+        navigate("/MyYummy"); // Navigate to the protected page
+      } else { 
+        setErrorMessage("Login failed. Please try again."); 
       }
     } catch (error) {
-      setErrorMessage("Failed to sign in. Please check your username and password.");
+      // Update the error message to reflect possible authentication errors
+      setErrorMessage(error.message || "Failed to sign in. Please check your username and password.");
     }
   };
+  
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      navigate("/MyYummy"); // Adjust the route as needed
+    }
+  }, [navigate]);
 
   return (
     <form
