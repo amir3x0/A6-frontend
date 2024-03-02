@@ -18,26 +18,25 @@ export const fetchRecipes = async () => {
     const response = await axios.get(`${API_URL}/recipes`);
     return response.data;
   } catch (error) {
-    return error;
+    throw new Error("Failed to fetch the recipes.");
   }
 };
 
 export const registerNewUser = async (name, email, username, password) => {
   try {
-    const response = await axios.post(`${API_URL}/users`, {name, email, username, password});
+    await axios.post(`${API_URL}/users`, {name, email, username, password});
     return true;
   } catch (error) {
-    return false;
+    throw new Error("Failed to register new user.");
   }
 };
 
 export const authenticateUser = async (username, password) => {
-  try {
-    const response = await axios.get(`${API_URL}/users`, { username, password });
-    localStorage.setItem("userToken", response);
+  try { 
+    await axios.post(`${API_URL}/users/login`, { username, password });
     return true;
   } catch (error) {
-    throw false;
+    throw new Error("Failed to authenticate user.");
   }
 };
 

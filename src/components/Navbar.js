@@ -20,8 +20,7 @@ const NavItem = ({ item, onItemClick, isActive }) => {
       <Link
         to={item.path}
         className={`px-4 py-2 font-bold text-lg ${
-          isActive ? "text-red-800" : "text-black"
-        }`} // Use backticks here
+          isActive ? "text-red-800" : "text-black"}`}
         onClick={onItemClick}
       >
         {item.name}
@@ -33,17 +32,23 @@ const NavItem = ({ item, onItemClick, isActive }) => {
   );
 };
 
+
 const NavBar = () => {
+  const [username, setUserName] = useState("");
+  const [test, settest] = useState("");
   const [navIsVisible, setNavIsVisible] = useState(false);
-  const location = useLocation();
-  const [navItems, setNavItems] = useState(baseNavItems);
+  const location = useLocation("");
+  const [navItems, setNavItems] = useState(loggedOutItems);
 
   useEffect(() => {
     const authUser = async => {
       try {
-        const token = localStorage.getItem("userToken");
-        setNavItems(token ? loggedInItems : loggedOutItems);
+        const result = localStorage.getItem("username");
+        setUserName(result);
+        settest("1");
+        setNavItems(loggedOutItems); //TODO change to loggedInItems when works
       } catch {
+        settest("0");
         setNavItems(loggedOutItems);
       }
     };
@@ -64,6 +69,8 @@ const NavBar = () => {
           <span className="text-black">mm</span>
           <span>y</span>
         </div>
+
+        <div>Welcome Back {username} {test}</div>
 
         <div className="lg:hidden z-50">
           {navIsVisible ? (

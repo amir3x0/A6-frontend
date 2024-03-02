@@ -18,13 +18,12 @@ export default function JoinUs() {
 
     const handleSubmit = async (e) => {
       e.preventDefault(); // Prevent default form submission
-      const response = registerNewUser(name, email, username, password);
-      if (response === true) { 
-        setSubmitMessage("User Created!");
-      }
-      else {
-        setSubmitMessage("Failed to create user.");
-      }
+      try {
+        const response = registerNewUser(name, email, username, password);
+        if (response === true) {
+          setSubmitMessage("User Created!");
+        }
+      } catch(e) { setSubmitMessage("Failed to create user."); }
     };
 
     return (

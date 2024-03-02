@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import { authenticateUser } from "../services/BackendService";
+import { useNavigate } from "react-router-dom";
 
 const SignInPage = ({ onSignIn }) => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -10,38 +11,69 @@ const SignInPage = ({ onSignIn }) => {
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent the default form submission
     try {
-      const userData = await authenticateUser(username, password);
-      // Process login success, store token/userData as needed
-      localStorage.setItem("userToken", username);
-      setErrorMessage("");
+      const result = await authenticateUser(username, password);
+      if(result) {
+        navigate("/MyYummy");
+        // localStorage.setItem("username"); //TODO communicate with ui
+      }
+      else { 
+        setErrorMessage("Not Found"); 
+      }
     } catch (error) {
-      // Handle login error (e.g., user not found, wrong password)
-      setErrorMessage(
-        "Failed to sign in. Please check your username and password."
-      );
+      setErrorMessage("Failed to sign in. Please check your username and password.");
     }
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <div>
-        <label>Username:</label>
+    <form
+      onSubmit={handleLogin}
+      className="max-w-lg mx-auto my-10 p-6 bg-white rounded shadow-md"
+    >
+      <div className="mb-4">
+        <label
+          className="block text-gray-700 text-sm font-bold mb-2"
+          htmlFor="username"
+        >
+          Username:
+        </label>
         <input
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          id="username"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="Your Username"
         />
       </div>
-      <div>
-        <label>Password:</label>
+      <div className="mb-6">
+        <label
+          className="block text-gray-700 text-sm font-bold mb-2"
+          htmlFor="password"
+        >
+          Password:
+        </label>
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          id="password"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="******************"
         />
       </div>
-      <button type="submit">Login</button>
-      {errorMessage && <p>{errorMessage}</p>}
+
+      <div className="flex justify-center">
+        <button
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Login
+        </button>
+      </div>
+
+      {errorMessage && (
+        <p className="text-red-500 text-xs italic mt-4">{errorMessage}</p>
+      )}
     </form>
   );
 };
