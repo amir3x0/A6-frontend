@@ -1,22 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
 
-const navItemsInfo = [
+const baseNavItems = [
   { name: "Home", path: "/" },
   { name: "Recipes", path: "/Recipes" },
   { name: "Plan Meal", path: "/Plan" },
   { name: "Share", path: "/Share" },
   { name: "Shopping", path: "/Shopping" },
-  { name: "MyYummy", path: "/myyummy" },
 ];
+
+const loggedInItems = [...baseNavItems, { name: "MyYummy", path: "/MyYummy" }];
+
+const loggedOutItems = [...baseNavItems, { name: "Sign In", path: "/SignIn" }];
 
 const NavItem = ({ item, onItemClick, isActive }) => {
   return (
     <li className="relative group">
       <Link
         to={item.path}
-        className={`px-4 py-2 font-bold text-lg ${isActive ? 'text-red-800' : 'text-black'}`} // Use backticks here
+        className={`px-4 py-2 font-bold text-lg ${
+          isActive ? "text-red-800" : "text-black"
+        }`} // Use backticks here
         onClick={onItemClick}
       >
         {item.name}
@@ -28,10 +33,22 @@ const NavItem = ({ item, onItemClick, isActive }) => {
   );
 };
 
-
 const NavBar = () => {
   const [navIsVisible, setNavIsVisible] = useState(false);
   const location = useLocation();
+  const [navItems, setNavItems] = useState(baseNavItems);
+
+  useEffect(() => {
+    const authUser = async => {
+      try {
+        const token = localStorage.getItem("userToken");
+        setNavItems(token ? loggedInItems : loggedOutItems);
+      } catch {
+        setNavItems(loggedOutItems);
+      }
+    };
+    authUser()
+  }, []);
 
   const navVisibilityHandler = () => {
     setNavIsVisible((curState) => {
@@ -64,12 +81,15 @@ const NavBar = () => {
           } transition-all duration-300 mt-[56px] lg:mt-0 bg-dark-hard lg:bg-transparent z-[49] flex flex-col w-full lg:w-auto justify-center lg:justify-end lg:flex-row fixed top-0 bottom-0 lg:static gap-x-9 items-center`}
         >
           <ul className="text-white items-center gap-y-5 lg:text-dark-soft flex flex-col lg:flex-row gap-x-2 font-semibold">
-            {navItemsInfo.map((item) => (
+            {navItems.map((item) => (
               <NavItem
                 key={item.name}
                 item={item}
                 onItemClick={navVisibilityHandler}
-                isActive= {location.pathname === item.path || (location.pathname === '/A6' && item.name === 'Home')}
+                isActive={
+                  location.pathname === item.path ||
+                  (location.pathname === "/A6" && item.name === "Home")
+                }
               />
             ))}
           </ul>

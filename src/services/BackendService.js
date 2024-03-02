@@ -31,6 +31,16 @@ export const registerNewUser = async (name, email, username, password) => {
   }
 };
 
+export const authenticateUser = async (username, password) => {
+  try {
+    const response = await axios.get(`${API_URL}/users`, { username, password });
+    localStorage.setItem("userToken", response);
+    return true;
+  } catch (error) {
+    throw false;
+  }
+};
+
 // export const fetchRecipeById = async (id) => {
 //     try {
 //         const response = await axios.get(`${API_URL}${id}`);
