@@ -10,6 +10,8 @@ const PlanSection = () => {
   const { selectedRecipes } = useSelectedRecipes();
   const navigate = useNavigate();
   const [shoppingList, setShoppingListState] = useState([]);
+  const { setShoppingList } = useShoppingList();
+
 
   const handleAddRecipe = (category) => {
     navigate(`/Recipes`, { state: { category } });
@@ -18,35 +20,37 @@ const PlanSection = () => {
   // Function to handle adding ingredients to the shopping list
   const handleAddIngredients = (ingredients) => {
     setShoppingListState((currentList) => {
-      // Create a temporary object to map ingredient names to their details
-      // This makes it easier to check for and update ingredients
       const ingredientMap = currentList.reduce((acc, ingredient) => {
         const key = `${ingredient.name}-${ingredient.unit}`;
-        acc[key] = ingredient;
+        if (!acc[key]) {
+          acc[key] = { ...ingredient };
+        } else {
+          acc[key].quantity += ingredient.quantity;
+        }
         return acc;
       }, {});
   
       ingredients.forEach((ingredientToAdd) => {
         const key = `${ingredientToAdd.name}-${ingredientToAdd.unit}`;
         if (ingredientMap[key]) {
-          // Ingredient exists, sum the quantity
-          ingredientMap[key].quantity = parseInt(ingredientMap[key].quantity, 10) + parseInt(ingredientToAdd.quantity, 10);
+          ingredientMap[key].quantity += parseFloat(ingredientToAdd.quantity);
         } else {
-          // Convert quantity to integer and add new ingredient
           ingredientMap[key] = {
             ...ingredientToAdd,
-            quantity: parseInt(ingredientToAdd.quantity, 10),
+            quantity: parseFloat(ingredientToAdd.quantity),
           };
         }
       });
   
-      // Convert the ingredientMap back to an array for the state
       return Object.values(ingredientMap);
     });
   };
   
   
-  
+  const makeList = () => {
+    setShoppingList(shoppingList); // Update the global context with the local state
+    navigate("/Shopping");
+  };
   
 
   return (
@@ -126,12 +130,12 @@ const PlanSection = () => {
                 ))}
               </tbody>
             </table>
-            {/* <button
+            <button
               onClick={makeList}
               className="bg-green-500 text-white px-4 py-2 rounded mt-4 hover:bg-green-600 transition-colors duration-300 w-full"
             >
               Make List
-            </button> */}
+            </button>
           </div>
         </div>
       </div>

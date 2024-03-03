@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useShoppingList } from "../pages/shopping/ShoppingListContext";
+import { useShoppingList } from "../context/ShoppingListContext";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const ShoppingSection = () => {

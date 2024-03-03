@@ -15,11 +15,17 @@ const RecipeCard = ({
   onClick,
   onSelect,
   showSelectButton,
+  showAddIngredientsButton, // New prop to control the display of the "Add Ingredients" button
+  onAddIngredients, // New prop to handle the "Add Ingredients" button click
 }) => {
   // Function to handle select button click without propagating to card click
   const handleSelectClick = (e) => {
     e.stopPropagation(); // Prevent onClick for the card from being called
     onSelect(recipe); // Call the onSelect handler passed from the parent
+  };
+
+  const handleAddIngredientsClick = () => {
+    onAddIngredients(recipe.ingredients);
   };
 
   return (
@@ -92,6 +98,15 @@ const RecipeCard = ({
                 className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               >
                 Select
+              </button>
+            )}
+            {/* Rest of the RecipeCard component remains unchanged */}
+            {showAddIngredientsButton && (
+              <button
+                onClick={handleAddIngredientsClick}
+                className="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Add Ingredients
               </button>
             )}
           </>

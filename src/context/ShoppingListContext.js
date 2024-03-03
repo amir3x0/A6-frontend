@@ -1,7 +1,7 @@
 // ShoppingListContext.js
 import React, { createContext, useContext, useState } from 'react';
 
-const ShoppingListContext = createContext();
+const ShoppingListContext = createContext(null); // Initialized with null for default value
 
 export const useShoppingList = () => useContext(ShoppingListContext);
 

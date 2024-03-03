@@ -10,13 +10,14 @@ import Share from "./pages/share/Share";
 import MyYummy from "./pages/profile/MyYummy";
 import Footer from "./components/Footer";
 import SignInPage from "./components/SignInPage";
-import { ShoppingListProvider } from './pages/shopping/ShoppingListContext';
+import { ShoppingListProvider } from './context/ShoppingListContext';
 import { SelectedRecipesProvider } from './context/SelectedRecipesContext'; 
 
 function App() {
   return (
     <Router>
-      <SelectedRecipesProvider> {/* Wrap higher in the component tree if needed */}
+      <SelectedRecipesProvider> 
+      <ShoppingListProvider>
         <div>
           <NavBar />
           <div className="font-serif">
@@ -26,13 +27,14 @@ function App() {
               <Route path="/Recipes" element={<Recipes />} />
               <Route path="/Plan" element={<PlanMeal />} />
               <Route path="/Share" element={<Share />} />
-              <Route path="/Shopping" element={<ShoppingListProvider><Shopping /></ShoppingListProvider>} />
+              <Route path="/Shopping" element={<Shopping />} />
               <Route path="/MyYummy" element={<MyYummy />} />
               <Route path="/SignIn" element={<SignInPage />} />
             </Routes>
           </div>
           <Footer />
         </div>
+        </ShoppingListProvider>
       </SelectedRecipesProvider>
     </Router>
   );
