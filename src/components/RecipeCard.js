@@ -28,6 +28,8 @@ const RecipeCard = ({
     onAddIngredients(recipe.ingredients);
   };
 
+  
+
   return (
     <div
       className={`border border-gray-200 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out cursor-pointer ${

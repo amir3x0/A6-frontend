@@ -60,7 +60,7 @@ const PlanSection = () => {
           </div>
         </div>
       </div>
-  
+
       <div className="flex flex-wrap justify-between">
         {/* Categories Container */}
         <div className="w-full lg:w-3/4 pr-4 mb-10 lg:mb-0">
@@ -101,7 +101,7 @@ const PlanSection = () => {
             )
           )}
         </div>
-  
+
         {/* Shopping List Section */}
         <div className="w-full lg:w-1/4 lg:pl-4">
           <h2 className="text-3xl font-bold text-green-800 uppercase mb-4">
@@ -139,10 +139,25 @@ const PlanSection = () => {
           >
             Make List
           </button>
+          <div className="mt-4">
+            <input
+              type="text"
+              className="w-full px-3 py-2 border rounded-md"
+              placeholder="Enter meal plan name"
+              //value={mealPlanName}
+             // onChange={(e) => setMealPlanName(e.target.value)}
+            />
+            <button
+              className="mt-2 w-full bg-green-500 text-white font-semibold py-2 px-4 rounded hover:bg-green-700 transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-opacity-50 shadow-lg"
+              //onClick={handleSavePlanMeal}
+            >
+              Save Plan Meal
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default PlanSection;
