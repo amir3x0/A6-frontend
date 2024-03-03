@@ -12,7 +12,6 @@ const PlanSection = () => {
   const [shoppingList, setShoppingListState] = useState([]);
   const { setShoppingList } = useShoppingList();
 
-
   const handleAddRecipe = (category) => {
     navigate(`/Recipes`, { state: { category } });
   };
@@ -29,7 +28,7 @@ const PlanSection = () => {
         }
         return acc;
       }, {});
-  
+
       ingredients.forEach((ingredientToAdd) => {
         const key = `${ingredientToAdd.name}-${ingredientToAdd.unit}`;
         if (ingredientMap[key]) {
@@ -41,17 +40,15 @@ const PlanSection = () => {
           };
         }
       });
-  
+
       return Object.values(ingredientMap);
     });
   };
-  
-  
+
   const makeList = () => {
     setShoppingList(shoppingList); // Update the global context with the local state
     navigate("/Shopping");
   };
-  
 
   return (
     <div className="container mx-auto mt-10 px-5">
@@ -60,12 +57,11 @@ const PlanSection = () => {
           <img className="w-full" src={PlanBg} alt="Plan Your Meal" />
           <div className="overlay absolute bottom-0 left-0 right-0 bg-gray-800 bg-opacity-55 p-5">
             <h1 className="text-white text-4xl font-serif mb-5">Plan A Meal</h1>
-            {/* Added padding below title */}
           </div>
         </div>
       </div>
-
-      <div className="flex flex-wrap lg:flex-nowrap justify-between">
+  
+      <div className="flex flex-wrap justify-between">
         {/* Categories Container */}
         <div className="w-full lg:w-3/4 pr-4 mb-10 lg:mb-0">
           {["Appetizers", "Starters", "Main Dish", "Dessert"].map(
@@ -96,8 +92,8 @@ const PlanSection = () => {
                           )
                         }
                         showSelectButton={false}
-                        showAddIngredientsButton={true} // Always show the "Add Ingredients" button in PlanSection
-                        onAddIngredients={handleAddIngredients} // Pass the handler to the RecipeCard component
+                        showAddIngredientsButton={true}
+                        onAddIngredients={handleAddIngredients}
                       />
                     ))}
                 </div>
@@ -105,42 +101,48 @@ const PlanSection = () => {
             )
           )}
         </div>
-
-        {/* Shopping List Section*/}
+  
+        {/* Shopping List Section */}
         <div className="w-full lg:w-1/4 lg:pl-4">
-          <h2 className="text-2xl font-bold text-green-800 uppercase mb-2">
+          <h2 className="text-3xl font-bold text-green-800 uppercase mb-4">
             Shopping List
           </h2>
-          <div className="border border-gray-300 rounded-md p-4">
-            <table className="w-full mb-4">
-              <thead>
+          <div className="overflow-x-auto lg:overflow-visible shadow-md rounded-lg">
+            <table className="min-w-full text-sm divide-y divide-gray-200">
+              <thead className="bg-gray-50">
                 <tr>
-                  <th className="border px-4 py-2">Ingredient</th>
-                  <th className="border px-4 py-2">Quantity</th>
-                  <th className="border px-4 py-2">Unit</th>
+                  <th className="px-4 py-3 font-semibold text-left text-gray-600 uppercase">
+                    Ingredient
+                  </th>
+                  <th className="px-4 py-3 font-semibold text-left text-gray-600 uppercase">
+                    Quantity
+                  </th>
+                  <th className="px-4 py-3 font-semibold text-left text-gray-600 uppercase">
+                    Unit
+                  </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-gray-100 bg-white">
                 {shoppingList.map(({ name, quantity, unit }, index) => (
-                  <tr key={index}>
-                    <td className="border px-4 py-2">{name}</td>
-                    <td className="border px-4 py-2">{quantity}</td>
-                    <td className="border px-4 py-2">{unit}</td>
+                  <tr key={index} className="hover:bg-gray-50">
+                    <td className="px-4 py-2 text-gray-700">{name}</td>
+                    <td className="px-4 py-2 text-gray-700">{quantity}</td>
+                    <td className="px-4 py-2 text-gray-700">{unit}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            <button
-              onClick={makeList}
-              className="bg-green-500 text-white px-4 py-2 rounded mt-4 hover:bg-green-600 transition-colors duration-300 w-full"
-            >
-              Make List
-            </button>
           </div>
+          <button
+            onClick={makeList}
+            className="mt-4 w-full bg-green-600 text-white font-semibold py-2 px-4 rounded hover:bg-green-700 transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-opacity-50 shadow-lg"
+          >
+            Make List
+          </button>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default PlanSection;
