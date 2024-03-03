@@ -1,4 +1,4 @@
-/////////// Template (This is our main page, what changes is only the components) //////////////
+import React from 'react';
 import "./App.css";
 import Home from "./pages/home/Home";
 import Shopping from "./pages/shopping/Shopping";
@@ -10,36 +10,32 @@ import Share from "./pages/share/Share";
 import MyYummy from "./pages/profile/MyYummy";
 import Footer from "./components/Footer";
 import SignInPage from "./components/SignInPage";
-import React from 'react';
-import { ShoppingListProvider } from './pages/shopping/ShoppingListContext'; // Adjust the path as necessary
-
-
+import { ShoppingListProvider } from './pages/shopping/ShoppingListContext';
+import { SelectedRecipesProvider } from './context/SelectedRecipesContext'; 
 
 function App() {
   return (
     <Router>
-      <div>
-        <NavBar />
-        <div className="font-serif">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/A6" element={<Home />} />
-            <Route path="/Recipes" element={<Recipes />} />
-            <Route path="/Plan" element={<PlanMeal />} />
-            <Route path="/Share" element={<Share />} />
-            // Wrap the Shopping component with ShoppingListProvider
-            <Route path="/Shopping" element={<ShoppingListProvider><Shopping /></ShoppingListProvider>} />
-            <Route path="/MyYummy" element={<MyYummy />} />
-            <Route path="/SignIn" element={<SignInPage />} />
-          </Routes>
+      <SelectedRecipesProvider> {/* Wrap higher in the component tree if needed */}
+        <div>
+          <NavBar />
+          <div className="font-serif">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/A6" element={<Home />} />
+              <Route path="/Recipes" element={<Recipes />} />
+              <Route path="/Plan" element={<PlanMeal />} />
+              <Route path="/Share" element={<Share />} />
+              <Route path="/Shopping" element={<ShoppingListProvider><Shopping /></ShoppingListProvider>} />
+              <Route path="/MyYummy" element={<MyYummy />} />
+              <Route path="/SignIn" element={<SignInPage />} />
+            </Routes>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </SelectedRecipesProvider>
     </Router>
   );
 }
 
 export default App;
-
-
-////////////////////////// End Of Template /////////////////////////////

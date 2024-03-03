@@ -1,63 +1,28 @@
-import React, { useState, useEffect } from "react";
-import RecipeCard from "./RecipeCard"; // Assuming RecipeCard.js is in the same directory
+import React, { useEffect, useState } from "react";
+import RecipeCard from "./RecipeCard";
 import PlanBg from "../pages/plan/plan_img/planBg.jpg";
 import { useNavigate } from "react-router-dom";
-import { fetchRecipes } from "../services/BackendService";
-
+import { useSelectedRecipes } from "../context/SelectedRecipesContext";
+import { fetchRecipeById } from "../services/BackendService";
 
 const PlanSection = () => {
   const [expandedRecipeId, setExpandedRecipeId] = useState(null);
-  const [selectedRecipes, setSelectedRecipes] = useState([]);
+  const { selectedRecipes } = useSelectedRecipes();
   const navigate = useNavigate();
-  const [shoppingList, setShoppingListState] = useState([]); // Renamed to avoid conflict
-  const [recipes, setRecipes] = useState([]);
-  const [loadingStatus, setLoadingStatus] = useState("loading");
-  // const { setShoppingList: setShoppingListContext } = useShoppingList(); // Destructure and rename
-
-  // Fetching all the recipes
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchRecipes();
-        setRecipes(data); 
-        setLoadingStatus("True");
-      } catch (error) {
-        setLoadingStatus("Error");
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const handleRecipeClick = (id) =>
-    setExpandedRecipeId(expandedRecipeId === id ? null : id);
-
-  const handleSelectRecipe = (recipe) => {
-    setSelectedRecipes((prevSelected) => {
-      const isAlreadySelected = prevSelected.some(
-        (item) => item.id === recipe.id
-      );
-      if (isAlreadySelected) {
-        return prevSelected.filter((item) => item.id !== recipe.id);
-      } else {
-        return [...prevSelected, recipe];
-      }
-    });
-  };
-
-  useEffect(() => {
-    // Update to only include the titles of selected recipes
-    const titlesList = selectedRecipes.map((recipe) => recipe.title);
-    setShoppingListState(titlesList);
-  }, [selectedRecipes]);
-
-  const makeList = () => {
-    //setShoppingListContext(shoppingList); // Now correctly refers to the context setter
-    navigate("/Plan");
-  };
+  const [shoppingList, setShoppingListState] = useState([]);
 
   const handleAddRecipe = (category) => {
     navigate(`/Recipes`, { state: { category } });
+  };
+
+  // Example function to demonstrate adding items to the shopping list (adapt as needed)
+  const addItemsToShoppingList = (recipe) => {
+    const newList = recipe.ingredients.map((ingredient) => ({
+      name: ingredient.name,
+      quantity: ingredient.quantity,
+      unit: ingredient.unit, // Assuming your ingredient objects have a 'unit' property
+    }));
+    setShoppingListState(newList);
   };
 
   return (
@@ -75,12 +40,12 @@ const PlanSection = () => {
       <div className="flex flex-wrap lg:flex-nowrap justify-between">
         {/* Categories Container */}
         <div className="w-full lg:w-3/4 pr-4 mb-10 lg:mb-0">
-          {["appetizers", "starters", "main dish", "dessert"].map(
+          {["Appetizers", "Starters", "Main Dish", "Dessert"].map(
             (category) => (
               <div key={category} className="mb-10">
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-2xl font-bold text-green-800 uppercase">
-                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                    {category}
                   </h2>
                   <button
                     className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors duration-300"
@@ -90,17 +55,19 @@ const PlanSection = () => {
                   </button>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {recipes
-                    .filter(
-                      (recipe) => recipe.category.toLowerCase() === category
-                    )
-                    .map((recipe, index) => (
+                  {selectedRecipes
+                    .filter((recipe) => recipe.category === category)
+                    .map((recipe) => (
                       <RecipeCard
                         key={recipe._id}
                         recipe={recipe}
                         isExpanded={expandedRecipeId === recipe._id}
-                        onClick={() => handleRecipeClick(recipe._id)}
-                        onSelect={() => handleSelectRecipe(recipe)}
+                        onClick={() =>
+                          setExpandedRecipeId(
+                            expandedRecipeId === recipe._id ? null : recipe._id
+                          )
+                        }
+                        showSelectButton={false}
                       />
                     ))}
                 </div>
@@ -108,6 +75,7 @@ const PlanSection = () => {
             )
           )}
         </div>
+
 
         {/* Shopping List Section*/}
         <div className="w-full lg:w-1/4 lg:pl-4">
@@ -133,12 +101,12 @@ const PlanSection = () => {
                 ))}
               </tbody>
             </table>
-            <button
+            {/* <button
               onClick={makeList}
               className="bg-green-500 text-white px-4 py-2 rounded mt-4 hover:bg-green-600 transition-colors duration-300 w-full"
             >
               Make List
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import RecipeCard from "./RecipeCard";
 import { fetchRecipes } from "../services/BackendService";
 import { useLocation } from "react-router-dom";
+import { useSelectedRecipes } from '../context/SelectedRecipesContext';
+import { useNavigate } from "react-router-dom";
+
+
 
 const RecipeSection = () => {
   const [originalRecipes, setOriginalRecipes] = useState({});
@@ -9,9 +13,12 @@ const RecipeSection = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedRecipes, setSelectedRecipes] = useState([]); // Define the state for selected recipes
   const [loadingStatus, setLoadingStatus] = useState("Loading");
   const location = useLocation();
-  const passedCategory = location.state?.category; // This captures the category passed from PlanSection
+  const passedCategory = location.state?.category;
+  const { addRecipe } = useSelectedRecipes();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,6 +52,14 @@ const RecipeSection = () => {
 
     fetchData();
   }, [passedCategory]);
+
+  const handleSelectRecipe = (recipeId) => {
+    // Use the addRecipe method from the context to add the selected recipe
+    addRecipe(recipeId).then(() => {
+        // After adding the recipe, navigate back to the PlanSection
+        navigate('/plan');
+    }).catch(error => console.error("Error adding recipe:", error));
+};
 
   useEffect(() => {
     if (!searchTerm.trim()) {
@@ -130,7 +145,8 @@ const RecipeSection = () => {
                     isExpanded={
                       selectedRecipe && selectedRecipe._id === recipe._id
                     }
-                    showActionButton={!!passedCategory}
+                    onSelect={() => handleSelectRecipe(recipe._id)}
+                    showSelectButton={!!passedCategory}
                   />
                 </div>
               ))}
