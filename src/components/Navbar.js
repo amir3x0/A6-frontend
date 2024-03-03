@@ -1,18 +1,22 @@
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 
-const baseNavItems = [
+const loggedInItems = [
   { name: "Home", path: "/" },
   { name: "Recipes", path: "/Recipes" },
   { name: "Plan Meal", path: "/Plan" },
   { name: "Share", path: "/Share" },
   { name: "Shopping", path: "/Shopping" },
+  { name: "MyYummy", path: "/MyYummy" },
 ];
 
-const loggedInItems = [...baseNavItems, { name: "MyYummy", path: "/MyYummy" }];
-
-const loggedOutItems = [...baseNavItems, { name: "Sign In", path: "/SignIn" }];
+const loggedOutItems = [
+  { name: "Home", path: "/" },
+  { name: "Recipes", path: "/Recipes" },
+  { name: "Sign In", path: "/SignIn" },
+];
 
 const NavItem = ({ item, onItemClick, isActive }) => {
   return (
@@ -32,33 +36,41 @@ const NavItem = ({ item, onItemClick, isActive }) => {
   );
 };
 
-
 const NavBar = () => {
-  const [username, setUserName] = useState("");
-  const [test, settest] = useState("");
-  const [navIsVisible, setNavIsVisible] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation("");
+  const [logged, setLogged] = useState(false);
+  const [username, setUserName] = useState("");
+  const [navIsVisible, setNavIsVisible] = useState(false);
   const [navItems, setNavItems] = useState(loggedOutItems);
 
   useEffect(() => {
     const authUser = async => {
-      try {
-        const result = localStorage.getItem("username");
-        setUserName(result);
-        settest("1");
-        setNavItems(loggedOutItems); //TODO change to loggedInItems when works
-      } catch {
-        settest("0");
+      const name = localStorage.getItem("name");
+      if (name) {
+        setUserName(name);
+        setLogged(true);
+        setNavItems(loggedInItems);
+      } else {
+        setLogged(false);
         setNavItems(loggedOutItems);
       }
     };
     authUser()
-  }, []);
+  }, [navigate]);
 
   const navVisibilityHandler = () => {
     setNavIsVisible((curState) => {
       return !curState;
     });
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("name");
+    navigate("/");
+    if (window.location.pathname === "/") {
+      window.location.reload();
+    }
   };
 
   return (
@@ -70,7 +82,13 @@ const NavBar = () => {
           <span>y</span>
         </div>
 
-        <div>Welcome Back {username} {test}</div>
+        {logged && (
+          <div>
+            <div className="font-bold text-xl text-red-800">
+              {username}
+            </div>
+          </div>
+        )}
 
         <div className="lg:hidden z-50">
           {navIsVisible ? (
@@ -82,6 +100,7 @@ const NavBar = () => {
             <AiOutlineMenu className="w-6 h-6" onClick={navVisibilityHandler} />
           )}
         </div>
+
         <div
           className={`${
             navIsVisible ? "right-0" : "-right-full"
@@ -101,6 +120,17 @@ const NavBar = () => {
             ))}
           </ul>
         </div>
+
+        {logged && (
+          <div className="flex justify-center">
+            <button
+              className="bg-red-500 text-white font-bold py-2 px-4 rounded-lg shadow-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-700 focus:ring-opacity-50 transition duration-300"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </div>
+        )}
       </header>
     </section>
   );

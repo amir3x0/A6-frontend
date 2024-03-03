@@ -8,7 +8,7 @@ export default function JoinUs() {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [submitMessage, setSubmitMessage] = useState("");
+    const [submitMessage, setSubmitMessage] = useState(false);
     const images = [sign];
     const reasons = ["Worldwide Contribution.",
                      "Varified by the people.",
@@ -20,9 +20,9 @@ export default function JoinUs() {
       e.preventDefault(); // Prevent default form submission
       try {
         const response = registerNewUser(name, email, username, password);
-        if (response === true) {
+        if (response) {
           setSubmitMessage("User Created!");
-        }
+        } else {setSubmitMessage("User already exists.");}
       } catch(e) { setSubmitMessage("Failed to create user."); }
     };
 
@@ -80,7 +80,7 @@ export default function JoinUs() {
               </form>
               {submitMessage && (
                 <p className={`flex justify-center font-bold mt-5 ${
-                    submitMessage.startsWith("Failed")
+                    submitMessage === "Failed to login."
                       ? "text-red-500"
                       : "text-green-500"
                   }`}
