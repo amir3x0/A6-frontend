@@ -27,7 +27,7 @@ export const registerNewUser = async (name, email, username, password) => {
     await axios.post(`${API_URL}/users`, {name, email, username, password});
     return true;
   } catch (error) {
-    throw new Error("Failed to register new user.");
+    return false;
   }
 };
 
@@ -35,10 +35,10 @@ export const authenticateUser = async (username, password) => {
   try { 
     const response = await axios.post(`${API_URL}/users/login`, { username, password });
     // Capture and return the access token from the response
-    return response.data.accessToken; // Assuming the server sends back an object with accessToken
+    return response.data; // Assuming the server sends back an object with accessToken
   } catch (error) {
     console.error('Error during authentication:', error.response?.data?.message || error.message);
-    throw new Error("Failed to authenticate user.");
+    return false;
   }
 };
 

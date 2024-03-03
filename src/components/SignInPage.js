@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState } from "react";
 import { authenticateUser } from "../services/BackendService";
 import { useNavigate } from "react-router-dom";
 
@@ -10,27 +10,15 @@ const SignInPage = ({ onSignIn }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent the default form submission
-    try {
-      const accessToken = await authenticateUser(username, password);
-      if (accessToken) {
-        // Store the access token in localStorage or in memory
-        localStorage.setItem("accessToken", accessToken); // Storing token in localStorage
-        navigate("/MyYummy"); // Navigate to the protected page
-      } else { 
-        setErrorMessage("Login failed. Please try again."); 
-      }
-    } catch (error) {
-      // Update the error message to reflect possible authentication errors
-      setErrorMessage(error.message || "Failed to sign in. Please check your username and password.");
+    const name = await authenticateUser(username, password);
+    if (name) {
+      // Store the access token in localStorage or in memory
+      localStorage.setItem("name", name); // Storing token in localStorage
+      navigate("/MyYummy"); // Navigate to the protected page
+    } else {
+      setErrorMessage("Login failed. Please try again.");
     }
   };
-  
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      navigate("/MyYummy"); // Adjust the route as needed
-    }
-  }, [navigate]);
 
   return (
     <form
@@ -79,9 +67,11 @@ const SignInPage = ({ onSignIn }) => {
         </button>
       </div>
 
-      {errorMessage && (
-        <p className="text-red-500 text-xs italic mt-4">{errorMessage}</p>
-      )}
+      <div className="flex justify-center font-semibold font-2xl my-5">
+        {errorMessage && (
+          <p className="text-red-500 text-xs italic mt-4">{errorMessage}</p>
+        )}
+      </div>
     </form>
   );
 };

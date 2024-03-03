@@ -27,7 +27,7 @@ const PlanSection = () => {
     };
 
     fetchData();
-  }, []);
+  }, [navigate]);
 
   const handleRecipeClick = (id) =>
     setExpandedRecipeId(expandedRecipeId === id ? null : id);
