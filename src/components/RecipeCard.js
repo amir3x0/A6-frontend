@@ -8,7 +8,8 @@ const CategoryLabels = {
   dessert: 'Dessert',
 };
 
-const RecipeCard = ({ recipe, isExpanded, onClick, onSelect }) => {
+// Added new prop `showSelectButton` to determine the visibility of the select button
+const RecipeCard = ({ recipe, isExpanded, onClick, onSelect, showSelectButton }) => {
   // Function to handle select button click without propagating to card click
   const handleSelectClick = (e) => {
     e.stopPropagation(); // Prevent onClick for the card from being called
@@ -53,13 +54,15 @@ const RecipeCard = ({ recipe, isExpanded, onClick, onSelect }) => {
                 <p className="text-sm"><span className="font-semibold">Fat:</span> {recipe.calories.fat}g</p>
               </div>
             </div>
-            {/* Add a button to handle recipe selection */}
-            <button
-              onClick={handleSelectClick}
-              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              {isExpanded ? 'Select' : 'Select'}
-            </button>
+            {/* Conditionally render the select button based on `showSelectButton` prop */}
+            {showSelectButton && (
+              <button
+                onClick={handleSelectClick}
+                className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Select
+              </button>
+            )}
           </>
         )}
       </div>

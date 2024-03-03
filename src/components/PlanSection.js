@@ -57,7 +57,7 @@ const PlanSection = () => {
   };
 
   const handleAddRecipe = (category) => {
-    console.log(`Add recipe to ${category}`);
+    navigate(`/Recipes`, { state: { category } });
   };
 
   return (
