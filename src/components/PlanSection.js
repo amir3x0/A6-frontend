@@ -112,19 +112,32 @@ const PlanSection = () => {
         {/* Selected List Section */}
         <div className="w-full lg:w-1/4 lg:pl-4">
           <h2 className="text-2xl font-bold text-green-800 uppercase mb-2">
-            Selected Recipes
+            Shopping List
           </h2>
           <div className="border border-gray-300 rounded-md p-4">
-            <ul className="list-disc pl-5">
-              {shoppingList.map((title, index) => (
-                <li key={index}>{title}</li>
-              ))}
-            </ul>
+            <table className="w-full mb-4">
+              <thead>
+                <tr>
+                  <th className="border px-4 py-2">Ingredient</th>
+                  <th className="border px-4 py-2">Quantity</th>
+                  <th className="border px-4 py-2">Unit</th>
+                </tr>
+              </thead>
+              <tbody>
+                {shoppingList.map(({ name, quantity, unit }, index) => (
+                  <tr key={index}>
+                    <td className="border px-4 py-2">{name}</td>
+                    <td className="border px-4 py-2">{quantity}</td>
+                    <td className="border px-4 py-2">{unit}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
             <button
               onClick={makeList}
               className="bg-green-500 text-white px-4 py-2 rounded mt-4 hover:bg-green-600 transition-colors duration-300 w-full"
             >
-              Create Meal
+              Make List
             </button>
           </div>
         </div>
