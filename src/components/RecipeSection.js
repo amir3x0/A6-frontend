@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
-import RecipeCard from "./RecipeCard"; // Adjust the import path as necessary
+import RecipeCard from "./RecipeCard";
 import { fetchRecipes } from "../services/BackendService";
+import { useLocation } from "react-router-dom";
+import { useSelectedRecipes } from '../context/SelectedRecipesContext';
+import { useNavigate } from "react-router-dom";
+
+
 
 const RecipeSection = () => {
   const [originalRecipes, setOriginalRecipes] = useState({});
@@ -8,18 +13,35 @@ const RecipeSection = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedRecipes, setSelectedRecipes] = useState([]); // Define the state for selected recipes
   const [loadingStatus, setLoadingStatus] = useState("Loading");
+  const location = useLocation();
+  const passedCategory = location.state?.category;
+  const { addRecipe } = useSelectedRecipes();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const fetchedRecipes = await fetchRecipes();
-        const categorized = fetchedRecipes.reduce((acc, recipe) => {
-          const category = recipe.category.toLowerCase();
-          if (!acc[category]) acc[category] = [];
-          acc[category].push({ ...recipe, picture: recipe.picture });
-          return acc;
-        }, {});
+        let categorized;
+        if (passedCategory) {
+          // Filter recipes by the passed category
+          categorized = {
+            [passedCategory]: fetchedRecipes.filter(
+              (recipe) =>
+                recipe.category.toLowerCase() === passedCategory.toLowerCase()
+            ),
+          };
+        } else {
+          // Original categorization logic
+          categorized = fetchedRecipes.reduce((acc, recipe) => {
+            const category = recipe.category.toLowerCase();
+            if (!acc[category]) acc[category] = [];
+            acc[category].push({ ...recipe, picture: recipe.picture });
+            return acc;
+          }, {});
+        }
         setOriginalRecipes(categorized);
         setDisplayedRecipes(categorized);
         setLoadingStatus("Loaded");
@@ -29,7 +51,15 @@ const RecipeSection = () => {
     };
 
     fetchData();
-  }, []);
+  }, [passedCategory]);
+
+  const handleSelectRecipe = (recipeId) => {
+    // Use the addRecipe method from the context to add the selected recipe
+    addRecipe(recipeId).then(() => {
+        // After adding the recipe, navigate back to the PlanSection
+        navigate('/plan');
+    }).catch(error => console.error("Error adding recipe:", error));
+};
 
   useEffect(() => {
     if (!searchTerm.trim()) {
@@ -56,14 +86,16 @@ const RecipeSection = () => {
 
   // Enhanced category colors with more vibrant and unique options
   const categoryColors = {
-    'appetizers': "bg-pink-50",
-    'starters': "bg-indigo-50",
-    'main dish': "bg-green-50",
-    'dessert': "bg-yellow-50",
+    appetizers: "bg-pink-50",
+    starters: "bg-indigo-50",
+    "main dish": "bg-green-50",
+    dessert: "bg-yellow-50",
   };
 
   if (loadingStatus === "Error")
-    return <div className="text-center text-red-500">Error loading recipes.</div>;
+    return (
+      <div className="text-center text-red-500">Error loading recipes.</div>
+    );
   if (loadingStatus !== "Loaded")
     return <div className="text-center">Loading...</div>;
 
@@ -72,7 +104,9 @@ const RecipeSection = () => {
       {/* Title */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-red-800">Explore Recipes</h1>
-        <p className="text-md text-gray-600 mt-2">Discover your next favorite dish</p>
+        <p className="text-md text-gray-600 mt-2">
+          Discover your next favorite dish
+        </p>
       </div>
 
       <div className="mb-8 flex justify-center">
@@ -86,7 +120,12 @@ const RecipeSection = () => {
 
       {Object.entries(displayedRecipes).length > 0 ? (
         Object.entries(displayedRecipes).map(([category, recipes]) => (
-          <div key={category} className={`${categoryColors[category] || "bg-gray-100"} mb-12 p-4 rounded-lg shadow`}>
+          <div
+            key={category}
+            className={`${
+              categoryColors[category] || "bg-gray-100"
+            } mb-12 p-4 rounded-lg shadow`}
+          >
             <h2 className="text-2xl font-bold mb-4 capitalize text-gray-800">
               {category}
             </h2>
@@ -95,13 +134,19 @@ const RecipeSection = () => {
                 <div
                   key={recipe._id}
                   className={`p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 transform hover:-translate-y-1 bg-white ${
-                    selectedRecipe === recipe ? "ring-2 ring-offset-2 ring-blue-500" : ""
+                    selectedRecipe === recipe
+                      ? "ring-2 ring-offset-2 ring-blue-500"
+                      : ""
                   }`}
                   onClick={() => handleRecipeClick(recipe, category)}
                 >
                   <RecipeCard
                     recipe={recipe}
-                    isExpanded={selectedRecipe && selectedRecipe._id === recipe._id}
+                    isExpanded={
+                      selectedRecipe && selectedRecipe._id === recipe._id
+                    }
+                    onSelect={() => handleSelectRecipe(recipe._id)}
+                    showSelectButton={!!passedCategory}
                   />
                 </div>
               ))}

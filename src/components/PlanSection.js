@@ -1,63 +1,53 @@
-import React, { useState, useEffect } from "react";
-import RecipeCard from "./RecipeCard"; // Assuming RecipeCard.js is in the same directory
+import React, { useEffect, useState } from "react";
+import RecipeCard from "./RecipeCard";
 import PlanBg from "../pages/plan/plan_img/planBg.jpg";
 import { useNavigate } from "react-router-dom";
-import { fetchRecipes } from "../services/BackendService";
-
+import { useSelectedRecipes } from "../context/SelectedRecipesContext";
+import { useShoppingList } from "../context/ShoppingListContext";
 
 const PlanSection = () => {
   const [expandedRecipeId, setExpandedRecipeId] = useState(null);
-  const [selectedRecipes, setSelectedRecipes] = useState([]);
+  const { selectedRecipes } = useSelectedRecipes();
   const navigate = useNavigate();
-  const [shoppingList, setShoppingListState] = useState([]); // Renamed to avoid conflict
-  const [recipes, setRecipes] = useState([]);
-  const [loadingStatus, setLoadingStatus] = useState("loading");
-  // const { setShoppingList: setShoppingListContext } = useShoppingList(); // Destructure and rename
+  const [shoppingList, setShoppingListState] = useState([]);
+  const { setShoppingList } = useShoppingList();
 
-  // Fetching all the recipes
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchRecipes();
-        setRecipes(data); 
-        setLoadingStatus("True");
-      } catch (error) {
-        setLoadingStatus("Error");
-      }
-    };
+  const handleAddRecipe = (category) => {
+    navigate(`/Recipes`, { state: { category } });
+  };
 
-    fetchData();
-  }, [navigate]);
+  // Function to handle adding ingredients to the shopping list
+  const handleAddIngredients = (ingredients) => {
+    setShoppingListState((currentList) => {
+      const ingredientMap = currentList.reduce((acc, ingredient) => {
+        const key = `${ingredient.name}-${ingredient.unit}`;
+        if (!acc[key]) {
+          acc[key] = { ...ingredient };
+        } else {
+          acc[key].quantity += ingredient.quantity;
+        }
+        return acc;
+      }, {});
 
-  const handleRecipeClick = (id) =>
-    setExpandedRecipeId(expandedRecipeId === id ? null : id);
+      ingredients.forEach((ingredientToAdd) => {
+        const key = `${ingredientToAdd.name}-${ingredientToAdd.unit}`;
+        if (ingredientMap[key]) {
+          ingredientMap[key].quantity += parseFloat(ingredientToAdd.quantity);
+        } else {
+          ingredientMap[key] = {
+            ...ingredientToAdd,
+            quantity: parseFloat(ingredientToAdd.quantity),
+          };
+        }
+      });
 
-  const handleSelectRecipe = (recipe) => {
-    setSelectedRecipes((prevSelected) => {
-      const isAlreadySelected = prevSelected.some(
-        (item) => item.id === recipe.id
-      );
-      if (isAlreadySelected) {
-        return prevSelected.filter((item) => item.id !== recipe.id);
-      } else {
-        return [...prevSelected, recipe];
-      }
+      return Object.values(ingredientMap);
     });
   };
 
-  useEffect(() => {
-    // Update to only include the titles of selected recipes
-    const titlesList = selectedRecipes.map((recipe) => recipe.title);
-    setShoppingListState(titlesList);
-  }, [selectedRecipes]);
-
   const makeList = () => {
-    //setShoppingListContext(shoppingList); // Now correctly refers to the context setter
-    navigate("/Plan");
-  };
-
-  const handleAddRecipe = (category) => {
-    console.log(`Add recipe to ${category}`);
+    setShoppingList(shoppingList); // Update the global context with the local state
+    navigate("/Shopping");
   };
 
   return (
@@ -67,20 +57,19 @@ const PlanSection = () => {
           <img className="w-full" src={PlanBg} alt="Plan Your Meal" />
           <div className="overlay absolute bottom-0 left-0 right-0 bg-gray-800 bg-opacity-55 p-5">
             <h1 className="text-white text-4xl font-serif mb-5">Plan A Meal</h1>
-            {/* Added padding below title */}
           </div>
         </div>
       </div>
 
-      <div className="flex flex-wrap lg:flex-nowrap justify-between">
+      <div className="flex flex-wrap justify-between">
         {/* Categories Container */}
         <div className="w-full lg:w-3/4 pr-4 mb-10 lg:mb-0">
-          {["appetizers", "starters", "main dish", "dessert"].map(
+          {["Appetizers", "Starters", "Main Dish", "Dessert"].map(
             (category) => (
               <div key={category} className="mb-10">
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-2xl font-bold text-green-800 uppercase">
-                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                    {category}
                   </h2>
                   <button
                     className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors duration-300"
@@ -90,17 +79,21 @@ const PlanSection = () => {
                   </button>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {recipes
-                    .filter(
-                      (recipe) => recipe.category.toLowerCase() === category
-                    )
-                    .map((recipe, index) => (
+                  {selectedRecipes
+                    .filter((recipe) => recipe.category === category)
+                    .map((recipe) => (
                       <RecipeCard
                         key={recipe._id}
                         recipe={recipe}
                         isExpanded={expandedRecipeId === recipe._id}
-                        onClick={() => handleRecipeClick(recipe._id)}
-                        onSelect={() => handleSelectRecipe(recipe)}
+                        onClick={() =>
+                          setExpandedRecipeId(
+                            expandedRecipeId === recipe._id ? null : recipe._id
+                          )
+                        }
+                        showSelectButton={false}
+                        showAddIngredientsButton={true}
+                        onAddIngredients={handleAddIngredients}
                       />
                     ))}
                 </div>
@@ -109,22 +102,56 @@ const PlanSection = () => {
           )}
         </div>
 
-        {/* Selected List Section */}
+        {/* Shopping List Section */}
         <div className="w-full lg:w-1/4 lg:pl-4">
-          <h2 className="text-2xl font-bold text-green-800 uppercase mb-2">
-            Selected Recipes
+          <h2 className="text-3xl font-bold text-green-800 uppercase mb-4">
+            Shopping List
           </h2>
-          <div className="border border-gray-300 rounded-md p-4">
-            <ul className="list-disc pl-5">
-              {shoppingList.map((title, index) => (
-                <li key={index}>{title}</li>
-              ))}
-            </ul>
+          <div className="overflow-x-auto lg:overflow-visible shadow-md rounded-lg">
+            <table className="min-w-full text-sm divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-4 py-3 font-semibold text-left text-gray-600 uppercase">
+                    Ingredient
+                  </th>
+                  <th className="px-4 py-3 font-semibold text-left text-gray-600 uppercase">
+                    Quantity
+                  </th>
+                  <th className="px-4 py-3 font-semibold text-left text-gray-600 uppercase">
+                    Unit
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 bg-white">
+                {shoppingList.map(({ name, quantity, unit }, index) => (
+                  <tr key={index} className="hover:bg-gray-50">
+                    <td className="px-4 py-2 text-gray-700">{name}</td>
+                    <td className="px-4 py-2 text-gray-700">{quantity}</td>
+                    <td className="px-4 py-2 text-gray-700">{unit}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <button
+            onClick={makeList}
+            className="mt-4 w-full bg-green-600 text-white font-semibold py-2 px-4 rounded hover:bg-green-700 transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-opacity-50 shadow-lg"
+          >
+            Make List
+          </button>
+          <div className="mt-4">
+            <input
+              type="text"
+              className="w-full px-3 py-2 border rounded-md"
+              placeholder="Enter meal plan name"
+              //value={mealPlanName}
+             // onChange={(e) => setMealPlanName(e.target.value)}
+            />
             <button
-              onClick={makeList}
-              className="bg-green-500 text-white px-4 py-2 rounded mt-4 hover:bg-green-600 transition-colors duration-300 w-full"
+              className="mt-2 w-full bg-green-500 text-white font-semibold py-2 px-4 rounded hover:bg-green-700 transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-opacity-50 shadow-lg"
+              //onClick={handleSavePlanMeal}
             >
-              Create Meal
+              Save Plan Meal
             </button>
           </div>
         </div>
