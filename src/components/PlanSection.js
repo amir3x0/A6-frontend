@@ -27,7 +27,7 @@ const PlanSection = () => {
     };
 
     fetchData();
-  }, [navigate]);
+  }, []);
 
   const handleRecipeClick = (id) =>
     setExpandedRecipeId(expandedRecipeId === id ? null : id);
@@ -109,7 +109,7 @@ const PlanSection = () => {
           )}
         </div>
 
-        {/* Selected List Section */}
+        {/* Shopping List Section*/}
         <div className="w-full lg:w-1/4 lg:pl-4">
           <h2 className="text-2xl font-bold text-green-800 uppercase mb-2">
             Shopping List
