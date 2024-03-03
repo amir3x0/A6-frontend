@@ -11,6 +11,8 @@ import MyYummy from "./pages/profile/MyYummy";
 import Footer from "./components/Footer";
 import SignInPage from "./components/SignInPage";
 import React from 'react';
+import { ShoppingListProvider } from './pages/shopping/ShoppingListContext'; // Adjust the path as necessary
+
 
 
 function App() {
@@ -25,7 +27,8 @@ function App() {
             <Route path="/Recipes" element={<Recipes />} />
             <Route path="/Plan" element={<PlanMeal />} />
             <Route path="/Share" element={<Share />} />
-            <Route path="/Shopping" element={<Shopping />} />
+            // Wrap the Shopping component with ShoppingListProvider
+            <Route path="/Shopping" element={<ShoppingListProvider><Shopping /></ShoppingListProvider>} />
             <Route path="/MyYummy" element={<MyYummy />} />
             <Route path="/SignIn" element={<SignInPage />} />
           </Routes>
@@ -35,7 +38,6 @@ function App() {
     </Router>
   );
 }
-
 
 export default App;
 
