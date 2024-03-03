@@ -3,7 +3,7 @@ import RecipeCard from "./RecipeCard";
 import PlanBg from "../pages/plan/plan_img/planBg.jpg";
 import { useNavigate } from "react-router-dom";
 import { useSelectedRecipes } from "../context/SelectedRecipesContext";
-import { fetchRecipeById } from "../services/BackendService";
+import { useShoppingList } from "../context/ShoppingListContext";
 
 const PlanSection = () => {
   const [expandedRecipeId, setExpandedRecipeId] = useState(null);
@@ -15,15 +15,39 @@ const PlanSection = () => {
     navigate(`/Recipes`, { state: { category } });
   };
 
-  // Example function to demonstrate adding items to the shopping list (adapt as needed)
-  const addItemsToShoppingList = (recipe) => {
-    const newList = recipe.ingredients.map((ingredient) => ({
-      name: ingredient.name,
-      quantity: ingredient.quantity,
-      unit: ingredient.unit, // Assuming your ingredient objects have a 'unit' property
-    }));
-    setShoppingListState(newList);
+  // Function to handle adding ingredients to the shopping list
+  const handleAddIngredients = (ingredients) => {
+    setShoppingListState((currentList) => {
+      // Create a temporary object to map ingredient names to their details
+      // This makes it easier to check for and update ingredients
+      const ingredientMap = currentList.reduce((acc, ingredient) => {
+        const key = `${ingredient.name}-${ingredient.unit}`;
+        acc[key] = ingredient;
+        return acc;
+      }, {});
+  
+      ingredients.forEach((ingredientToAdd) => {
+        const key = `${ingredientToAdd.name}-${ingredientToAdd.unit}`;
+        if (ingredientMap[key]) {
+          // Ingredient exists, sum the quantity
+          ingredientMap[key].quantity = parseInt(ingredientMap[key].quantity, 10) + parseInt(ingredientToAdd.quantity, 10);
+        } else {
+          // Convert quantity to integer and add new ingredient
+          ingredientMap[key] = {
+            ...ingredientToAdd,
+            quantity: parseInt(ingredientToAdd.quantity, 10),
+          };
+        }
+      });
+  
+      // Convert the ingredientMap back to an array for the state
+      return Object.values(ingredientMap);
+    });
   };
+  
+  
+  
+  
 
   return (
     <div className="container mx-auto mt-10 px-5">
@@ -68,6 +92,8 @@ const PlanSection = () => {
                           )
                         }
                         showSelectButton={false}
+                        showAddIngredientsButton={true} // Always show the "Add Ingredients" button in PlanSection
+                        onAddIngredients={handleAddIngredients} // Pass the handler to the RecipeCard component
                       />
                     ))}
                 </div>
@@ -75,7 +101,6 @@ const PlanSection = () => {
             )
           )}
         </div>
-
 
         {/* Shopping List Section*/}
         <div className="w-full lg:w-1/4 lg:pl-4">
